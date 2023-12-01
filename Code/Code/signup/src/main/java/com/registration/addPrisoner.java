@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 
-@WebServlet("/Administrator/addPrisoner")
+@WebServlet("/addPrisoner")
 public class addPrisoner extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

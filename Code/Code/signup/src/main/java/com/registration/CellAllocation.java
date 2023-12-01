@@ -9,13 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Administrator/CellAllocation")
+@WebServlet("/CellAllocation")
 public class CellAllocation extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -24,13 +25,13 @@ public class CellAllocation extends HttpServlet {
 
         String searchName = request.getParameter("prisonerName");
 
+        RequestDispatcher dispatcher = null;
         Connection con = null;
         List<String> matchedPrisoners = new ArrayList<>();
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project?useSSL=false", "root",
-                    "hashirbluered");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project?useSSL=false", "root","hashirbluered");
 
             // Use a prepared statement to prevent SQL injection
             PreparedStatement pst = con.prepareStatement("SELECT pname FROM prisoner WHERE pname LIKE ?");
@@ -45,7 +46,14 @@ public class CellAllocation extends HttpServlet {
 
             // Set the matched prisoners list as a request attribute
             request.setAttribute("matchedPrisoners", matchedPrisoners);
-
+            
+            dispatcher = request.getRequestDispatcher("CellAllocation.jsp");
+            if (!matchedPrisoners.isEmpty()) {
+                request.setAttribute("matchedPrisoners",matchedPrisoners );
+            } else {
+                request.setAttribute("matchedPrisoners", "Empty");
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -57,8 +65,9 @@ public class CellAllocation extends HttpServlet {
                 e.printStackTrace();
             }
 
-            // Forward the request to a JSP page to display the results
-            request.getRequestDispatcher("cellAllocation.jsp").forward(request, response);
+            
+            dispatcher.forward(request, response);
+           
         }
     }
 }
