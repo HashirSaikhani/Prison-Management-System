@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Cell Allocation - Administrator Home</title>
+    <title>Cell Allocation</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="styles/admin.css">
 </head>
@@ -38,6 +37,9 @@
             <h4>Matched Prisoners:</h4>
             <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
+                <c:forEach var="prisoner" items="${matchedPrisoners}">
+                    <option value="${prisoner}">${prisoner}</option>
+                </c:forEach>
             </select>
             <button type="button" class="btn btn-info mt-2" onclick="allocateCell()">Allocate Cell</button>
         </div>
@@ -55,16 +57,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="alert/dist/sweetalert.css">
 
     <!-- Custom JavaScript for form validation and SweetAlert -->
     <script>
         function searchPrisoner() {
-            var prisonerName = document.getElementById("prisonerName").value;
-
             // Your logic to search for matching prisoners and populate the select dropdown goes here
-            // For example, you can make an AJAX call to the server to get the list of matching prisoners
-
             // For demonstration purposes, let's assume we have a static list of prisoners
             var prisoners = ["Prisoner1", "Prisoner2", "Prisoner3"];
 

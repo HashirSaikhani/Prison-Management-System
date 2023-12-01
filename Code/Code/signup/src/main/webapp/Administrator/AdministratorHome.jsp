@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="Administrator/styles/admin.css">
 </head>
 <body>
 
@@ -41,27 +41,27 @@
     <!-- Custom JavaScript for redirection -->
     <script>
         function redirectToViewRecord() {
-            window.location.href = 'viewRecord.jsp';
+            window.location.href = 'Administrator/viewRecord.jsp';
         }
 
         function redirectToAddPrisoner() {
-            window.location.href = 'addPrisoner.jsp';
+            window.location.href = 'Administrator/addPrisoner.jsp';
         }
 
         function redirectToRemovePrisoner() {
-            window.location.href = 'removePrisoner.jsp';
+            window.location.href = 'Administrator/removePrisoner.jsp';
         }
 
         function redirectToManageOfficer() {
-            window.location.href = 'manageOfficer.jsp';
+            window.location.href = 'Administrator/manageOfficer.jsp';
         }
 
         function redirectToCellAllocation() {
-            window.location.href = 'cellAllocation.jsp';
+            window.location.href = 'Administrator/cellAllocation.jsp';
         }
 
         function redirectToAssignDuties() {
-            window.location.href = 'assignDuties.jsp';
+            window.location.href = 'Administrator/assignDuties.jsp';
         }
     </script>
 </body>

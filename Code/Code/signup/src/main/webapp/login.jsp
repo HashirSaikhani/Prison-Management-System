@@ -38,7 +38,7 @@
 							<div class="form-group">
 								<label for="username"><i
 									class="zmdi zmdi-account material-icons-name"></i></label> <input
-									type="text" name="username" id="username"
+									type="email" name="username" id="username"
 									placeholder="Your Email" required = "required" />
 							</div>
 							<div class="form-group">
