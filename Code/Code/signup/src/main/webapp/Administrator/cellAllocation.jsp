@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
+<<<<<<< HEAD
     <link rel="stylesheet" href="styles/admin.css">
 </head>
 <body>
@@ -16,6 +17,15 @@
             Prison Management System
         </a>
     </nav>
+=======
+      <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-light">
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
+</nav>
+
+>>>>>>> 9f38be96cc019d5a3ef3260dce7abea6951dea4e
 
     <!-- Content -->
     <div class="container mt-4">
@@ -124,6 +134,7 @@
         return false;
     }
 
+<<<<<<< HEAD
         
         function populateNumOfCellsDropdown(allocatedCellIds) {
             // Your implementation to populate the numOfCells dropdown based on allocatedCellIds
@@ -196,6 +207,9 @@
             // Prevent form submission
             return false;
         }
+=======
+        <script>
+>>>>>>> 9f38be96cc019d5a3ef3260dce7abea6951dea4e
 
         function showSuccessAlert(message) {
             Swal.fire({

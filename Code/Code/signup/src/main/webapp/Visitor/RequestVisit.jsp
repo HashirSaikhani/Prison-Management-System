@@ -10,8 +10,13 @@
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
+<<<<<<< HEAD
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
  <!-- Assuming you have a separate CSS file for visitor styles -->
+=======
+   <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
+
+>>>>>>> 9f38be96cc019d5a3ef3260dce7abea6951dea4e
 </head>
 <body>
 
