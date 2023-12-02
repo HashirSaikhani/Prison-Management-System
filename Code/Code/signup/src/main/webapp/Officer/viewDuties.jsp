@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Assign Duties - Administrator Home</title>
+    <title>View Duties Officer Home</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- SweetAlert2 CSS -->
@@ -15,28 +15,19 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='AdministratorHome.jsp'" class="btn btn-primary-left"style="color: white;">Admin Panel</button>
+    <button onclick="window.location.href='OfficerHome.jsp'" class="btn btn-primary-left"style="color: white;">Officer Homepage</button>
 </nav>
 
 
 
     <!-- Content -->
     <div class="container mt-4">
-        <h1 class="mb-4">Assign Duties</h1>
+        <h1 class="mb-4">Select Assigned Duties</h1>
 
         <!-- Assign Duties Form -->
         <form id="assignDutiesForm" onsubmit="return assignDuty()">
             <div class="form-group">
-                <label for="officerName">Select Officer:</label>
-                <select class="form-control" id="officerName" name="officerName" required>
-                    <!-- Options will be dynamically populated based on officers -->
-                    <option value="Officer1">Officer1</option>
-                    <option value="Officer2">Officer2</option>
-                    <option value="Officer3">Officer3</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="duty">Select Duty:</label>
+                <label for="duty">Select from List of Duties assigned by Admin:</label>
                 <select class="form-control" id="duty" name="duty" required>
                     <!-- Options will be dynamically populated based on duties -->
                     <option value="Patrol">Patrol</option>
@@ -48,7 +39,7 @@
                      <option value="Office Duty">Crises Intervention</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Assign Duty</button>
+            <button type="submit" class="btn btn-primary">Select Duty</button>
         </form>
     </div>
 
@@ -70,7 +61,7 @@
             // For demonstration purposes, let's assume the duty is assigned successfully
 
             // Show success message
-            showSuccessAlert("Duty assigned successfully!");
+            showSuccessAlert("Duty selected successfully!");
 
             // Prevent form submission
             return false;

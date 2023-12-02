@@ -14,11 +14,10 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-white" href="#">
-            Prison Management System
-        </a>
-    </nav>
+   <nav class="navbar navbar-expand-lg navbar-light">
+    <button onclick="window.location.href='AdministratorHome.jsp'" class="btn btn-primary-left"style="color: white;">Admin Panel</button>
+</nav>
+
 
     <!-- Content -->
     <div class="container mt-4">

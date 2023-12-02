@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>View Record - Administrator Home Hashir</title>
+    <title>Cell Allocation - Administrator Home </title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- SweetAlert2 CSS -->
@@ -14,18 +14,20 @@
 </head>
 <body>
 
-   <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='AdministratorHome.jsp'" class="btn btn-primary-left"style="color: white;">Admin Panel</button>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand text-white" href="#">
+        Prison Management System
+    </a>
+    <button onclick="window.location.href='AdministratorHome.jsp'" class="btn btn-primary">Go to Administrator Home</button>
 </nav>
-
 
 
     <!-- Content -->
     <div class="container mt-4">
-        <h1 class="mb-4">View Record</h1>
+        <h1 class="mb-4">Cell Allocation</h1>
 
-        <!-- View Record Form -->
-        <form id="viewRecordForm" onsubmit="return searchPrisoner()">
+        <!-- Cell Allocation Form -->
+        <form id="cellAllocationForm" onsubmit="return searchPrisoner()">
             <div class="form-group">
                 <label for="prisonerName">Enter Prisoner Name:</label>
                 <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
@@ -39,14 +41,19 @@
             <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
-            <button type="button" class="btn btn-info mt-2" onclick="viewRecord()">View Record</button>
+            <div class="form-group">
+                <label for="numOfCells">Select Cell to Allocate:</label>
+                <select class="form-control" id="numOfCells" name="numOfCells" required>
+                    <!-- Options will be dynamically populated based on the range of values -->
+                </select>
+            </div>
+            <button type="button" class="btn btn-info mt-2" onclick="allocateCell()">Allocate Cell</button>
         </div>
 
-        <!-- Display Prisoner Record -->
-        <div id="prisonerRecord" class="mt-4" style="display: none;">
-            <h4>Prisoner Record:</h4>
-            <!-- Your logic to display the record of the selected prisoner goes here -->
-            <p id="recordDetails"></p>
+        <!-- Cell Allocation Information -->
+        <div id="cellAllocationInfo" class="mt-4" style="display: none;">
+            <h4>Cell Allocation Information:</h4>
+            <p id="cellInfoDetails"></p>
         </div>
     </div>
 
@@ -82,20 +89,49 @@
             // Show the matched prisoners section
             document.getElementById("matchedPrisoners").style.display = "block";
 
+            // Populate the numOfCells dropdown dynamically
+            populateNumOfCellsDropdown();
+
             // Prevent form submission
             return false;
         }
 
-        function viewRecord() {
+        function populateNumOfCellsDropdown() {
+            var numOfCellsDropdown = document.getElementById("numOfCells");
+            numOfCellsDropdown.innerHTML = "";
+
+            // Set the range of values for the dropdown
+            var minCells = 1;
+            var maxCells = 3;
+
+            // Populate options based on the range
+            for (var i = minCells; i <= maxCells; i++) {
+                var option = document.createElement("option");
+                option.value = i;
+                option.text = i.toString();
+                numOfCellsDropdown.appendChild(option);
+            }
+        }
+
+        function allocateCell() {
             var selectedPrisoner = document.getElementById("selectedPrisoner").value;
+            var numOfCells = document.getElementById("numOfCells").value;
 
-            // Your logic to retrieve and display the record of the selected prisoner goes here
-            // For demonstration purposes, let's assume we have static record details
-            var recordDetails = "Name: " + selectedPrisoner + "<br>Crime: Crime details<br>Sentence: Sentence details";
+            // Your logic to allocate the specified number of cells goes here
+            // For demonstration purposes, let's assume the cells are successfully allocated
+            var successMessage = "Successfully Allocated ";
 
-            // Display the prisoner record
-            document.getElementById("recordDetails").innerHTML = recordDetails;
-            document.getElementById("prisonerRecord").style.display = "block";
+           
+
+            showSuccessAlert(successMessage);
+        }
+
+        function showSuccessAlert(message) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: message,
+            });
         }
     </script>
 </body>
