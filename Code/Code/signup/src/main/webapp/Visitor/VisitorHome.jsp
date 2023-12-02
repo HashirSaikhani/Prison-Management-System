@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="styles/visitor.css">
+    <link rel="stylesheet" href="Visitor/styles/visitor.css">
 </head>
 <body>
 
