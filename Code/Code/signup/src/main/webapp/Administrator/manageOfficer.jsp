@@ -61,31 +61,47 @@
 
     <!-- Custom JavaScript for form validation and SweetAlert -->
     <script>
-        function searchOfficer() {
-            var officerName = document.getElementById("officerName").value;
+    function searchOfficer() {
+        var officerName = document.getElementById("officerName").value;
 
-            // Your logic to search for matching officers and populate the select dropdown goes here
-            // For example, you can make an AJAX call to the server to get the list of matching officers
+        // Make an AJAX call to the server to search for matching officers
+        fetch("${pageContext.request.contextPath}/Administrator/manageOfficer", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: "officerName=" + encodeURIComponent(officerName),
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Populate the select dropdown with matching officers
+                var selectDropdown = document.getElementById("selectedOfficer");
+                selectDropdown.innerHTML = "";
 
-            // For demonstration purposes, let's assume we have a static list of officers
-            var officers = ["Officer1", "Officer2", "Officer3"];
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = data[i];
+                        option.text = data[i];
+                        selectDropdown.appendChild(option);
+                    }
 
-            // Populate the select dropdown with matching officers
-            var selectDropdown = document.getElementById("selectedOfficer");
-            selectDropdown.innerHTML = "";
-            for (var i = 0; i < officers.length; i++) {
-                var option = document.createElement("option");
-                option.value = officers[i];
-                option.text = officers[i];
-                selectDropdown.appendChild(option);
-            }
+                    // Show the matched officers section
+                    document.getElementById("matchedOfficers").style.display = "block";
+                } else {
+                    // Handle the case where no matching officers were found
+                    alert("No matching officers found");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+            });
 
-            // Show the matched officers section
-            document.getElementById("matchedOfficers").style.display = "block";
+        // Prevent form submission
+        return false;
+    }
 
-            // Prevent form submission
-            return false;
-        }
+
 
         function viewOfficerRecord() {
             var selectedOfficer = document.getElementById("selectedOfficer").value;
