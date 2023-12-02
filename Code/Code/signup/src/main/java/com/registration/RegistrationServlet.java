@@ -92,3 +92,27 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 }
+
+//
+//OOP Principles:
+//Encapsulation:
+//
+//The servlet encapsulates the functionality related to user registration within the doPost method. It handles input validation, database interactions, and forwards the request to a JSP page.
+//Inheritance:
+//
+//Similar to the previous examples, the RegistrationServlet class extends HttpServlet, indicating inheritance from the servlet class.
+//Polymorphism:
+//
+//The doPost method demonstrates polymorphism by overriding the doPost method defined in the HttpServlet class.
+//SOLID Principles:
+//Single Responsibility Principle (SRP):
+//
+//The RegistrationServlet class adheres to SRP by having a single responsibility: handling user registration-related tasks, including input validation, database queries, and forwarding the request to a JSP page.
+//Open/Closed Principle (OCP):
+//
+//The class is open for extension (by adding more functionality) and closed for modification (as the existing code doesn't need modification for its basic functionality).
+//		
+//		
+//		Dependency Inversion Principle (DIP):
+//
+//			The code uses JDBC for database interaction, and JDBC itself adheres to DIP by providing a standard interface for database access.

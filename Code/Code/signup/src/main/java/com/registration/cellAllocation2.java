@@ -62,4 +62,27 @@ public class cellAllocation2 extends HttpServlet {
         }
     }
 }
-
+//
+//OOP Principles:
+//Encapsulation:
+//
+//The servlet encapsulates the functionality related to cell allocation within the doPost method. It handles database interactions, prepares JSON responses, and sets request attributes.
+//Inheritance:
+//
+//Similar to the previous example, the cellAllocation class extends HttpServlet, indicating inheritance from the servlet class.
+//Polymorphism:
+//
+//The doPost method demonstrates polymorphism by overriding the doPost method defined in the HttpServlet class.
+//
+//
+//SOLID Principles:
+//	
+//Single Responsibility Principle (SRP):
+//
+//The cellAllocation class adheres to SRP by having a single responsibility: handling cell allocation-related tasks, including searching for prisoners, processing the results, and generating a JSON response.
+//Open/Closed Principle (OCP):
+//
+//The class is open for extension (by adding more functionality) and closed for modification (as the existing code doesn't need modification for its basic functionality).
+//
+//Dependency Inversion Principle (DIP):
+//The code uses JDBC for database interaction, and JDBC itself adheres to DIP by providing a standard interface for database access.

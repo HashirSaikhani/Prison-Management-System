@@ -70,3 +70,25 @@ public class Login extends HttpServlet {
 	}
 
 }
+
+
+//OOP Principles:
+//Encapsulation:
+//
+//The servlet encapsulates the functionality related to user login within the doPost method. It handles user input validation, database interactions, and session management.
+//Inheritance:
+//
+//Similar to the previous examples, the Login class extends HttpServlet, indicating inheritance from the servlet class.
+//Polymorphism:
+//
+//The doPost method demonstrates polymorphism by overriding the doPost method defined in the HttpServlet class.
+//SOLID Principles:
+//Single Responsibility Principle (SRP):
+//
+//The Login class adheres to SRP by having a single responsibility: handling user login-related tasks, including input validation, database queries, and session management.
+//Open/Closed Principle (OCP):
+//
+//The class is open for extension (by adding more functionality) and closed for modification (as the existing code doesn't need modification for its basic functionality).
+//Dependency Inversion Principle (DIP):
+//
+//The code uses JDBC for database interaction, and JDBC itself adheres to DIP by providing a standard interface for database access.
