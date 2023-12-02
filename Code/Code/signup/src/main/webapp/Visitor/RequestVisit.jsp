@@ -10,12 +10,13 @@
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="styles/visitor.css"> <!-- Assuming you have a separate CSS file for visitor styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
+ <!-- Assuming you have a separate CSS file for visitor styles -->
 </head>
 <body>
 
    <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
 </nav>
 
     <!-- Content -->

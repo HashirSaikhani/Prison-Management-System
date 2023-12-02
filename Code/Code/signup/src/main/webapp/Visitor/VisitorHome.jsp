@@ -7,14 +7,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="Visitor/styles/visitor.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
 </head>
 <body>
 
     <!-- Navbar -->
    
       <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='VisitorHome.jsp'" class="btn btn-primary-left"style="color: white;">Visitor Panel</button>
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
 </nav>
     
 
@@ -37,13 +37,13 @@
 
     <!-- Custom JavaScript for redirection -->
     <script>
-        function redirectToViewRecord() {
-            window.location.href = 'Visitor/RequestVisit.jsp';
-        }
+    function redirectToViewRecord() {
+        window.location.href = '<%= request.getContextPath() %>/Visitor/RequestVisit.jsp';
+    }
 
-        function redirectToAddPrisoner() {
-            window.location.href = 'Visitor/ViewRequest.jsp';
-        }
+    function redirectToAddPrisoner() {
+        window.location.href = '<%= request.getContextPath() %>/Visitor/ViewRequest.jsp';
+    }
 
       
      
