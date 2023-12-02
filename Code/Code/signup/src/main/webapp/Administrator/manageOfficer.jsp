@@ -16,6 +16,12 @@
 
  <nav class="navbar navbar-expand-lg navbar-light">
     <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admini Panel</button>
+    
+    
+      <div style="position: absolute; top: 10px; right: 10px;">
+  <button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-right" style="color: white;">Log out</button>
+	</div>
+    
 </nav>
 
     <!-- Content -->
