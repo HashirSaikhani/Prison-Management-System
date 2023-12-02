@@ -7,8 +7,10 @@
     <title>Cell Allocation</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="styles/admin.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light">
@@ -20,39 +22,55 @@
     <div class="container mt-4">
         <h1 class="mb-4">Cell Allocation</h1>
 
-        <!-- Display Matched Prisoners -->
-        <div id="matchedPrisoners" class="mt-4">
-            <h4>Matched Prisoners:</h4>
-            <c:if test="${not empty matchedPrisoners}">
-                <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
-                    <c:forEach var="prisoner" items="${matchedPrisoners}">
-                        <option value="${prisoner}">${prisoner}</option>
-                    </c:forEach>
-                </select>
-                <button type="button" class="btn btn-info mt-2" onclick="allocateCell()">Allocate Cell</button>
-            </c:if>
-            <c:if test="${empty matchedPrisoners}">
-                <p>No matching prisoners found.</p>
-            </c:if>
-        </div>
+        <!-- Cell Allocation Form -->
+<form id="cellAllocationForm" onsubmit="return displayMatchedPrisoners()" method="post" action="cellAllocation">
+    <div class="form-group">
+        <label for="prisonerName">Enter Prisoner Name:</label>
+        <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
     </div>
+    <button type="submit" class="btn btn-primary">Search Prisoner</button>
+</form>
 
-     <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- Display Matched Prisoners -->
+<div id="matchedPrisoners" class="mt-4" style="display: none;">
+    <h4>Matched Prisoners:</h4>
+    <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
+        <!-- Options will be dynamically populated based on search results -->
+    </select>
+</div>
 
-    <!-- SweetAlert2 JS -->
-    <script src= "https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	<link rel="stylesheet" href="alert/dist/sweetalert.css">
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <!-- Custom JavaScript for form validation and SweetAlert -->
-    <script>
-        // Your JavaScript logic for handling cell allocation can go here
-        function allocateCell() {
-            // Placeholder function for demonstration purposes
-            showSuccessAlert("Cell allocated successfully!");
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Custom JavaScript for form validation and SweetAlert -->
+<script>
+    function displayMatchedPrisoners(prisoners) {
+        var matchedPrisonersSelect = document.getElementById("selectedPrisoner");
+        matchedPrisonersSelect.innerHTML = ""; // Clear previous content
+
+        for (var i = 0; i < prisoners.length; i++) {
+            var option = document.createElement("option");
+            option.value = prisoners[i];
+            option.text = prisoners[i];
+            matchedPrisonersSelect.appendChild(option);
         }
+
+        // Show the matched prisoners section
+        document.getElementById("matchedPrisoners").style.display = "block";
+        return false; // Prevent form submission
+    }
+</script>
+
+       
+
+       
+
+        
 
         function showSuccessAlert(message) {
             Swal.fire({

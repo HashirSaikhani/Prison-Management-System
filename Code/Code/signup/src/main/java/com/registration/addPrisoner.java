@@ -1,5 +1,4 @@
 package com.registration;
-
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 
-@WebServlet("/addPrisoner")
+@WebServlet("/Administrator/addPrisoner")
 public class addPrisoner extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -38,7 +37,7 @@ public class addPrisoner extends HttpServlet {
 
             int rowCount = pst.executeUpdate();
 
-            dispatcher = request.getRequestDispatcher("addPrisoner.jsp");
+            dispatcher = request.getRequestDispatcher("/Administrator/addPrisoner.jsp");
             if (rowCount > 0) {
                 request.setAttribute("status", "success");
             } else {
