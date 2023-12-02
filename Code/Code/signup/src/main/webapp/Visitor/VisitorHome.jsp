@@ -7,12 +7,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-<<<<<<< HEAD
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
-=======
  <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
 
->>>>>>> 9f38be96cc019d5a3ef3260dce7abea6951dea4e
+
 </head>
 <body>
 
@@ -20,6 +18,12 @@
    
       <nav class="navbar navbar-expand-lg navbar-light">
     <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
+    
+       
+      <div style="position: absolute; top: 10px; right: 10px;">
+  <button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-right" style="color: white;">Log out</button>
+	</div>
+    
 </nav>
 
     <!-- Content -->
