@@ -8,12 +8,12 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="styles/admin.css">
+      <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
 
-   <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='AdministratorHome.jsp'" class="btn btn-primary-left"style="color: white;">Admin Panel</button>
+ <nav class="navbar navbar-expand-lg navbar-light">
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
 </nav>
 
 

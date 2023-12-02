@@ -7,17 +7,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="Officer/styles/officer.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-white" href="#">
-           Prison Management System
-        </a>
-    </nav>
-
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
+</nav>
     <!-- Content -->
     <div class="container mt-4">
         <h1 class="mb-4">Officer Homepage</h1>
@@ -41,23 +38,23 @@
     <!-- Custom JavaScript for redirection -->
     <script>
         function redirectToViewRecord() {
-            window.location.href = 'Officer/viewDuties.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Officer/viewDuties.jsp';
         }
 
         function redirectToAddPrisoner() {
-            window.location.href = 'Officer/PermitMedicalRequest.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Officer/PermitMedicalRequest.jsp';
         }
 
         function redirectToRemovePrisoner() {
-            window.location.href = 'Officer/RecordVisitors.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Officer/RecordVisitors.jsp';
         }
 
         function redirectToManageOfficer() {
-            window.location.href = 'Officer/UpdatePrisonerRecord.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Officer/UpdatePrisonerRecord.jsp';
         }
 
         function redirectToCellAllocation() {
-            window.location.href = 'Officer/ManageVisitRequest.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Officer/ManageVisitRequest.jsp';
         }
 
         

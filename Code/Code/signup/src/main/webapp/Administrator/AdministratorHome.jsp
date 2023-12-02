@@ -7,16 +7,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="Administrator/styles/admin.css">
+      <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-white" href="#">
-           Prison Management System
-        </a>
-    </nav>
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
+</nav>
 
     <!-- Content -->
     <div class="container mt-4">
@@ -41,27 +39,27 @@
     <!-- Custom JavaScript for redirection -->
     <script>
         function redirectToViewRecord() {
-            window.location.href = 'Administrator/viewRecord.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Administrator/viewRecord.jsp';
         }
 
         function redirectToAddPrisoner() {
-            window.location.href = 'Administrator/addPrisoner.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Administrator/addPrisoner.jsp';
         }
 
         function redirectToRemovePrisoner() {
-            window.location.href = 'Administrator/removePrisoner.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Administrator/removePrisoner.jsp';
         }
 
         function redirectToManageOfficer() {
-            window.location.href = 'Administrator/manageOfficer.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Administrator/manageOfficer.jsp';
         }
 
         function redirectToCellAllocation() {
-            window.location.href = 'Administrator/cellAllocation.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Administrator/cellAllocation.jsp';
         }
 
         function redirectToAssignDuties() {
-            window.location.href = 'Administrator/assignDuties.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Administrator/assignDuties.jsp';
         }
     </script>
 </body>
