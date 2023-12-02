@@ -7,17 +7,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="Prisoner/styles/prisoner.css">
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css">
 </head>
 <body>
 
     <!-- Navbar -->
    
-      <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='PrisonerHome.jsp'" class="btn btn-primary-left"style="color: white;">Officer Panel</button>
+    <nav class="navbar navbar-expand-lg navbar-light">
+    <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
 </nav>
-    
-
     <!-- Content -->
     <div class="container mt-4">
         <h1 class="mb-4">Prisoner Homepage</h1>
@@ -39,20 +37,22 @@
 
     <!-- Custom JavaScript for redirection -->
     <script>
+    
+    
         function redirectToViewRecord() {
-            window.location.href = 'Prisoner/RequestMedicalAttention.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Prisoner/RequestMedicalAttention.jsp';
         }
 
         function redirectToAddPrisoner() {
-            window.location.href = 'Prisoner/RequestWorkAssignment.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Prisoner/RequestWorkAssignment.jsp';
         }
 
         function redirectToRemovePrisoner() {
-            window.location.href = 'Prisoner/RequestVisitor.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Prisoner/RequestVisitor.jsp';
         }
 
         function redirectToManageOfficer() {
-            window.location.href = 'Prisoner/FileComplaint.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Prisoner/FileComplaint.jsp';
         }
 
      
