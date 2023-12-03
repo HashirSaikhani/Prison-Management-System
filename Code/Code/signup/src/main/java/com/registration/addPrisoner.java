@@ -58,3 +58,18 @@ public class addPrisoner extends HttpServlet {
         }
     }
 }
+//
+////OOP Principles:
+//Encapsulation:
+//
+//The servlet encapsulates the functionality related to adding a prisoner within the doPost method.
+//Inheritance:
+//
+//The class addPrisoner extends HttpServlet, indicating inheritance from the servlet class.
+//Polymorphism:
+//
+//The doPost method is an example of polymorphism, as it overrides the doPost method defined in the HttpServlet class.
+//SOLID Principles:
+//Single Responsibility Principle (SRP):
+//
+//The addPrisoner class has a single responsibility: handling the addition of a prisoner. It parses the request, interacts with the database, and forwards the request.

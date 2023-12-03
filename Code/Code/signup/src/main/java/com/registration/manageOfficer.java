@@ -68,3 +68,26 @@ public class manageOfficer extends HttpServlet {
         }
     }
 }
+//
+//OOP Principles:
+//Encapsulation:
+//
+//The servlet encapsulates the functionality related to managing officers within the doGet and doPost methods. It handles database interactions, retrieves officer names, and sets request attributes.
+//Inheritance:
+//
+//Similar to the previous examples, the manageOfficer class extends HttpServlet, indicating inheritance from the servlet class.
+//Polymorphism:
+//
+//The doGet and doPost methods demonstrate polymorphism by overriding the corresponding methods defined in the HttpServlet class.
+//SOLID Principles:
+//Single Responsibility Principle (SRP):
+//
+//The manageOfficer class adheres to SRP by having a single responsibility: handling officer management-related tasks, including retrieving officer names and forwarding the request to a JSP page.
+//Open/Closed Principle (OCP):
+//
+//The class is open for extension (by adding more functionality) and closed for modification (as the existing code doesn't need modification for its basic functionality).
+//		
+//		
+//		Dependency Inversion Principle (DIP):
+//
+//			The code uses JDBC for database interaction, and JDBC itself adheres to DIP by providing a standard interface for database access.
