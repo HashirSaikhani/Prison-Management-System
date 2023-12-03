@@ -1,4 +1,5 @@
 package com.registration;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
-@WebServlet("/Administrator/cellAllocation")
-public class cellAllocation extends HttpServlet {
+@WebServlet("/Administrator/viewRecord")
+public class viewRecord extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +35,7 @@ public class cellAllocation extends HttpServlet {
             // Use a prepared statement to prevent SQL injection
             PreparedStatement pst = con.prepareStatement("SELECT pname FROM prisoner WHERE pname LIKE ?");
             pst.setString(1, "%" + searchName + "%");
-            
+
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {

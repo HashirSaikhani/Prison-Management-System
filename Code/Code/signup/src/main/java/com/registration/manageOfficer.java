@@ -1,7 +1,6 @@
 package com.registration;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,68 +8,63 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONObject;
 
-@WebServlet("/manageOfficer")
+@WebServlet("/Administrator/manageOfficer")
 public class manageOfficer extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // Set the content type of the response
-        response.setContentType("text/html;charset=UTF-8");
-
-        // Initialize PrintWriter
-        PrintWriter out = response.getWriter();
-
-        // Creating a list to store officer names
-        List<String> officers = new ArrayList<>();
-
-        // JDBC Connection parameters
-        String jdbcUrl = "jdbc:mysql://localhost:3306/project?useSSL=false";
-        String username = "root";
-        String password = "hashirbluered";
-
-        try {
-            // Load the JDBC driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Establish the connection
-            Connection con = DriverManager.getConnection(jdbcUrl, username, password);
-
-            // Query to retrieve all officers
-            String sql = "SELECT oname FROM officer";
-            PreparedStatement pst = con.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-
-            // Add officer names to the list
-            while (rs.next()) {
-                officers.add(rs.getString("oname"));
-            }
-
-            // Close the resources
-            rs.close();
-            pst.close();
-            con.close();
-
-            // Set the list of officers as a request attribute
-            request.setAttribute("officers", officers);
-
-            // Forward the request to the JSP page
-            request.getRequestDispatcher("manageOfficer.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-            out.println("Error: " + e.getMessage());
-        }
-    }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+
+        String searchName = request.getParameter("officerName");
+        RequestDispatcher dispatcher = null;
+        Connection con = null;
+        List<String> matchedOfficers = new ArrayList<>();
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project?useSSL=false", "root", "hashirbluered");
+
+            // Use a prepared statement to prevent SQL injection
+            PreparedStatement pst = con.prepareStatement("SELECT oname FROM officer WHERE oname LIKE ?");
+            pst.setString(1, "%" + searchName + "%");
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                // Add matched officer names to the list
+                matchedOfficers.add(rs.getString("oname"));
+            }
+
+            // Set the matched officers list as a request attribute
+            request.setAttribute("matchedOfficers", matchedOfficers);
+
+            // Create a JSON object and add the list of matched officers
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("matchedOfficers", matchedOfficers);
+
+            // Set the content type to JSON
+            response.setContentType("application/json");
+            // Get the PrintWriter to write the JSON response
+            response.getWriter().print(jsonResponse.toJSONString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

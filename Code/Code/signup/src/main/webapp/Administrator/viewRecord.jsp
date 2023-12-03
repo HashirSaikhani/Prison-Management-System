@@ -4,31 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>View Record - Administrator Home Hashir</title>
+    <title>View Prisoner Record</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-   <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
-
- <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    
-    
-    
-    
-</nav>
-
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
+    </nav>
 
     <!-- Content -->
     <div class="container mt-4">
-        <h1 class="mb-4">View Record</h1>
+        <h1 class="mb-4">View Prisoner Record</h1>
 
-        <!-- View Record Form -->
-        <form id="viewRecordForm" onsubmit="return searchPrisoner()">
+        <!-- View Prisoner Record Form -->
+        <form id="viewRecordForm" onsubmit="return searchPrisoner()" method="post" action="viewRecord">
             <div class="form-group">
                 <label for="prisonerName">Enter Prisoner Name:</label>
                 <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
@@ -42,14 +34,15 @@
             <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
-            <button type="button" class="btn btn-info mt-2" onclick="viewRecord()">View Record</button>
+
+            <!-- Combine display form with the search form -->
+            <button type="button" class="btn btn-success mt-2" onclick="showPrisonerRecord()">View Prisoner Record</button>
         </div>
 
         <!-- Display Prisoner Record -->
         <div id="prisonerRecord" class="mt-4" style="display: none;">
-            <h4>Prisoner Record:</h4>
-            <!-- Your logic to display the record of the selected prisoner goes here -->
-            <p id="recordDetails"></p>
+            <!-- Display prisoner record here -->
+            <!-- You may use a table or other HTML elements to display the record -->
         </div>
     </div>
 
@@ -66,40 +59,112 @@
         function searchPrisoner() {
             var prisonerName = document.getElementById("prisonerName").value;
 
-            // Your logic to search for matching prisoners and populate the select dropdown goes here
-            // For example, you can make an AJAX call to the server to get the list of matching prisoners
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
 
-            // For demonstration purposes, let's assume we have a static list of prisoners
-            var prisoners = ["Prisoner1", "Prisoner2", "Prisoner3"];
+            // Set up the request
+            xhr.open('POST', '<%= request.getContextPath() %>/Administrator/viewRecord', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-            // Populate the select dropdown with matching prisoners
-            var selectDropdown = document.getElementById("selectedPrisoner");
-            selectDropdown.innerHTML = "";
-            for (var i = 0; i < prisoners.length; i++) {
-                var option = document.createElement("option");
-                option.value = prisoners[i];
-                option.text = prisoners[i];
-                selectDropdown.appendChild(option);
-            }
+            // Set up the callback function for when the request is complete
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
 
-            // Show the matched prisoners section
-            document.getElementById("matchedPrisoners").style.display = "block";
+                        // Check if the data contains matched prisoners
+                        if (data && data.matchedPrisoners) {
+                            // Populate the select dropdown with matching prisoners
+                            var selectDropdown = document.getElementById("selectedPrisoner");
+                            selectDropdown.innerHTML = "";
+                            for (var i = 0; i < data.matchedPrisoners.length; i++) {
+                                var option = document.createElement("option");
+                                option.value = data.matchedPrisoners[i];
+                                option.text = data.matchedPrisoners[i];
+                                selectDropdown.appendChild(option);
+                            }
+
+                            // Show the matched prisoners section
+                            document.getElementById("matchedPrisoners").style.display = "block";
+                        } else {
+                            console.error('No matched prisoners found.');
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                } else {
+                    console.error('Request failed with status:', xhr.status);
+                }
+            };
+
+            // Set up the callback function for network errors
+            xhr.onerror = function () {
+                console.error('Network error occurred');
+            };
+
+            // Send the request with the prisonerName in the body
+            xhr.send('prisonerName=' + encodeURIComponent(prisonerName));
 
             // Prevent form submission
             return false;
         }
 
-        function viewRecord() {
+        function showPrisonerRecord() {
             var selectedPrisoner = document.getElementById("selectedPrisoner").value;
 
-            // Your logic to retrieve and display the record of the selected prisoner goes here
-            // For demonstration purposes, let's assume we have static record details
-            var recordDetails = "Name: " + selectedPrisoner + "<br>Crime: Crime details<br>Sentence: Sentence details";
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
 
-            // Display the prisoner record
-            document.getElementById("recordDetails").innerHTML = recordDetails;
-            document.getElementById("prisonerRecord").style.display = "block";
+            // Set up the request
+            xhr.open('POST', '<%= request.getContextPath() %>/Administrator/viewRecord2', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            // Set up the callback function for when the request is complete
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        console.log('Raw response:', xhr.responseText); // Debugging line
+
+                        var data = JSON.parse(xhr.responseText);
+
+                        // Check if the data contains the prisoner record
+                        if (data && data.status === "success" && data.prisonerRecord) {
+                            // Display the prisoner record
+                            var prisonerRecordDiv = document.getElementById("prisonerRecord");
+                            prisonerRecordDiv.innerHTML = "<h4>Prisoner Record:</h4>" +
+                                "ID: " + data.prisonerRecord.pid +
+                                "<br>Name: " + data.prisonerRecord.pname +
+                                "<br>Sentence: " + data.prisonerRecord.psentence +
+                                " years<br>Crime: " + data.prisonerRecord.pcrime +
+                                "<br>";
+
+                            // Show the prisoner record section
+                            prisonerRecordDiv.style.display = "block";
+                        } else {
+                            console.error('No valid prisoner record found or unexpected response.');
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                } else {
+                    console.error('Request failed with status:', xhr.status);
+                }
+            };
+
+            // Set up the callback function for network errors
+            xhr.onerror = function () {
+                console.error('Network error occurred');
+            };
+
+            // Send the request with the selectedPrisoner in the body
+            xhr.send('selectedPrisoner=' + encodeURIComponent(selectedPrisoner));
+
+            // Prevent form submission
+            return false;
         }
+
+
+
     </script>
 </body>
 </html>

@@ -4,30 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Remove Prisoner - Administrator Home</title>
+    <title>Remove Prisoner</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-      <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
- <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    
-    
-    
-</nav>
-
-
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
+    </nav>
 
     <!-- Content -->
     <div class="container mt-4">
         <h1 class="mb-4">Remove Prisoner</h1>
 
         <!-- Remove Prisoner Form -->
-        <form id="removePrisonerForm" onsubmit="return searchPrisoner()">
+        <form id="removePrisonerForm" onsubmit="return searchPrisoner()" method="post" action="removePrisoner">
             <div class="form-group">
                 <label for="prisonerName">Enter Prisoner Name:</label>
                 <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
@@ -41,7 +34,9 @@
             <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
-            <button type="button" class="btn btn-danger mt-2" onclick="deletePrisoner()">Delete Prisoner</button>
+
+            <!-- Combine removal form with the search form -->
+            <button type="button" class="btn btn-danger mt-2" onclick="removePrisoner()">Remove Prisoner</button>
         </div>
     </div>
 
@@ -58,41 +53,111 @@
         function searchPrisoner() {
             var prisonerName = document.getElementById("prisonerName").value;
 
-            // Your logic to search for matching prisoners and populate the select dropdown goes here
-            // For example, you can make an AJAX call to the server to get the list of matching prisoners
+            // Create a new XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
 
-            // For demonstration purposes, let's assume we have a static list of prisoners
-            var prisoners = ["Prisoner1", "Prisoner2", "Prisoner3"];
+            // Set up the request
+            xhr.open('POST', '<%= request.getContextPath() %>/Administrator/removePrisoner', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-            // Populate the select dropdown with matching prisoners
-            var selectDropdown = document.getElementById("selectedPrisoner");
-            selectDropdown.innerHTML = "";
-            for (var i = 0; i < prisoners.length; i++) {
-                var option = document.createElement("option");
-                option.value = prisoners[i];
-                option.text = prisoners[i];
-                selectDropdown.appendChild(option);
-            }
+            // Set up the callback function for when the request is complete
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
 
-            // Show the matched prisoners section
-            document.getElementById("matchedPrisoners").style.display = "block";
+                        // Check if the data contains matched prisoners
+                        if (data && data.matchedPrisoners) {
+                            // Populate the select dropdown with matching prisoners
+                            var selectDropdown = document.getElementById("selectedPrisoner");
+                            selectDropdown.innerHTML = "";
+                            for (var i = 0; i < data.matchedPrisoners.length; i++) {
+                                var option = document.createElement("option");
+                                option.value = data.matchedPrisoners[i];
+                                option.text = data.matchedPrisoners[i];
+                                selectDropdown.appendChild(option);
+                            }
+
+                            // Show the matched prisoners section
+                            document.getElementById("matchedPrisoners").style.display = "block";
+                        } else {
+                            console.error('No matched prisoners found.');
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                } else {
+                    console.error('Request failed with status:', xhr.status);
+                }
+            };
+
+            // Set up the callback function for network errors
+            xhr.onerror = function () {
+                console.error('Network error occurred');
+            };
+
+            // Send the request with the prisonerName in the body
+            xhr.send('prisonerName=' + encodeURIComponent(prisonerName));
 
             // Prevent form submission
             return false;
         }
 
-        function deletePrisoner() {
+        function removePrisoner() {
             var selectedPrisoner = document.getElementById("selectedPrisoner").value;
 
-            // Your logic to delete the selected prisoner goes here
-            // For demonstration purposes, let's assume the prisoner is deleted successfully
-            var isDeleted = true;
+            // Create the request body
+            var requestBody = new URLSearchParams();
+            requestBody.append('selectedPrisoner', selectedPrisoner);
 
-            if (isDeleted) {
-                showSuccessAlert("Prisoner successfully deleted!");
-            } else {
-                showErrorAlert("Failed to delete prisoner.");
-            }
+            // Make the fetch request
+            fetch('<%= request.getContextPath() %>/Administrator/removePrisoner2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: requestBody,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                // Check the content type
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.indexOf('application/json') !== -1) {
+                    return response.json();
+                } else {
+                    // Handle non-JSON response (e.g., display as plain text)
+                    return response.text();
+                }
+            })
+            .then(data => {
+                console.log('Response from server:', data); // Log the response
+
+                if (typeof data === 'object') {
+                    // Check if the data contains the status
+                    if (data.status) {
+                        // Display success or failure message
+                        if (data.status === 'success') {
+                            showSuccessAlert('Prisoner removed successfully');
+                        } else {
+                            showErrorAlert('Prisoner removal failed');
+                        }
+                    } else {
+                        console.error('Response is missing the "status" field:', data);
+                    }
+                } else {
+                    console.error('Invalid response format. Response:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error);
+                showErrorAlert('An error occurred while processing your request');
+            });
+
+            // Prevent form submission
+            return false;
         }
 
         function showSuccessAlert(message) {
@@ -106,10 +171,11 @@
         function showErrorAlert(message) {
             Swal.fire({
                 icon: 'error',
-                title: 'Oops...',
+                title: 'Error',
                 text: message,
             });
         }
+
     </script>
 </body>
 </html>

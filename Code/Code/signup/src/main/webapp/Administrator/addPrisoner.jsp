@@ -33,16 +33,16 @@
             <select class="form-control" id="crime" name="crime" required>
                     <!-- Options will be dynamically populated based on duties -->
                   
-                    <option value="Patrol">Murder</option>
-                    <option value="Gate Security">Aggravated Assault</option>
-                    <option value="Office Duty">Robbery</option>
-                       <option value="Patrol">Burglary</option>
-                    <option value="Gate Security">Manslaughter</option>
-                    <option value="Office Duty">Drug Trafficking</option>
-                     <option value="Office Duty">Gambling Fraud</option>
-                     <option value="Gate Security">Kidnapping</option>
-                    <option value="Office Duty">Armed Robbery</option>
-                     <option value="Office Duty">Money Laundering</option>
+                    <option value="Murder">Murder</option>
+                    <option value="Aggravated Assault">Aggravated Assault</option>
+                    <option value="Robbery">Robbery</option>
+                       <option value="Burglary">Burglary</option>
+                    <option value="Manslaughter">Manslaughter</option>
+                    <option value="Drug Trafficking">Drug Trafficking</option>
+                     <option value="Gambling Fraud">Gambling Fraud</option>
+                     <option value="Kidnapping">Kidnapping</option>
+                    <option value="Armed Robbery">Armed Robbery</option>
+                     <option value="Money Laundering">Money Laundering</option>
                      
                 </select>
           
