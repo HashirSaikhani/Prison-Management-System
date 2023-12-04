@@ -12,30 +12,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/Administrator/manageOfficer3")
-public class manageOfficer3 extends HttpServlet {
+@WebServlet("/Officer/UpdatePrisonerRecord3")
+public class UpdatePrisonerRecord3 extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Inside ManageOfficer3Servlet");
+        System.out.println("Inside UpdatePrisonerRecord3Servlet");
 
         // Get parameters from the request
-        int editedOfficerID = Integer.parseInt(request.getParameter("editOfficerID"));
-        String editedOfficerName = request.getParameter("editOfficerName");
-        String editedOfficerEmail = request.getParameter("editOfficerEmail");
-        String editedOfficerPassword = request.getParameter("editOfficerPassword");
-        String editedOfficerMobile = request.getParameter("editOfficerMobile");
-        String editedOfficerDuty = request.getParameter("editOfficerDuty");
-       
-        System.out.println(editedOfficerID);
-        System.out.println(editedOfficerName);
-        System.out.println(editedOfficerEmail);
-        System.out.println(editedOfficerPassword);
-        System.out.println(editedOfficerMobile);
-        System.out.println(editedOfficerDuty);
+        int editedPrisonerID = Integer.parseInt(request.getParameter("editPrisonerID"));
+        String editedPrisonerName = request.getParameter("editPrisonerName");
+        String editedPrisonerSentence = request.getParameter("editPrisonerSentence");
+        String editedPrisonerCrime = request.getParameter("editPrisonerCrime");
+        int editedPrisonerRoomID = Integer.parseInt(request.getParameter("editPrisonerRoomID"));
 
-        // Add similar lines for other editable fields
+        System.out.println(editedPrisonerID);
+        System.out.println(editedPrisonerName);
+        System.out.println(editedPrisonerSentence);
+        System.out.println(editedPrisonerCrime);
+        System.out.println(editedPrisonerRoomID);
 
         // Database connection parameters
         String jdbcUrl = "jdbc:mysql://localhost:3306/project?useSSL=false";
@@ -43,22 +39,19 @@ public class manageOfficer3 extends HttpServlet {
         String dbPassword = "hashirbluered";
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword)) {
-            // Prepare SQL statement to update officer information
-        	String updateQuery = "UPDATE officer SET oname = ?, oemail = ?, opwd = ?, omobile = ?, oduty = ? WHERE oid = ?";
+            // Prepare SQL statement to update prisoner information
+            String updateQuery = "UPDATE prisoner SET pname = ?, psentence = ?, pcrime = ?, proomid = ? WHERE pid = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
                 // Set parameters for the prepared statement
-                preparedStatement.setString(1, editedOfficerName);
-                preparedStatement.setString(2, editedOfficerEmail);
-                preparedStatement.setString(3, editedOfficerPassword);
-                preparedStatement.setString(4, editedOfficerMobile);
-                preparedStatement.setString(5, editedOfficerDuty);
-                preparedStatement.setInt(6, editedOfficerID); 
-                
-                // Add similar lines for other editable fields
+                preparedStatement.setString(1, editedPrisonerName);
+                preparedStatement.setString(2, editedPrisonerSentence);
+                preparedStatement.setString(3, editedPrisonerCrime);
+                preparedStatement.setInt(4, editedPrisonerRoomID);
+                preparedStatement.setInt(5, editedPrisonerID);
 
                 // Execute the update statement
                 int rowsAffected = preparedStatement.executeUpdate();
-                System.out.println("Outside ManageOfficer3Servlet");
+                System.out.println("Outside UpdatePrisonerRecord3Servlet");
 
                 // Check if the update was successful
                 if (rowsAffected > 0) {

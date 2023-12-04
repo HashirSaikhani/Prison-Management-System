@@ -4,39 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>View Request - Visitor Panel</title>
+    <title>View Request Status</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-     <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
-
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
+    </nav>
 
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
-  
-    
-</nav>
     <!-- Content -->
     <div class="container mt-4">
         <h1 class="mb-4">View Request Status</h1>
 
         <!-- View Request Form -->
-        <form id="viewRequestForm" onsubmit="return viewRequestStatus()">
+        <form id="viewRequestForm" onsubmit="return viewStatus()" method="post" action="viewRequest">
             <div class="form-group">
-                <label for="visitorName">Your Name:</label>
+                <label for="visitorName">Enter Your Name:</label>
                 <input type="text" class="form-control" id="visitorName" name="visitorName" required>
             </div>
-            <button type="submit" class="btn btn-info">Check Status</button>
+            <button type="submit" class="btn btn-primary">View Request Status</button>
         </form>
 
         <!-- Display Request Status -->
-        <div id="statusDisplay" class="mt-4" style="display: none;">
-            <h4>Request Status:</h4>
-            <p id="statusDetails"></p>
+        <div id="requestStatus" class="mt-4" style="display: none;">
+            
         </div>
     </div>
 
@@ -47,23 +41,60 @@
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <!-- Custom JavaScript for form validation and SweetAlert -->
     <script>
-    function viewRequestStatus() {
-        var visitorName = document.getElementById("visitorName").value;
+        function viewStatus() {
+            const visitorName = document.getElementById("visitorName").value;
 
-        // Your logic to retrieve the status of the visit request goes here
-        // For demonstration purposes, let's assume we have a static status
-        var status = "Approved";
+            // Create a new XMLHttpRequest object
+            const xhr = new XMLHttpRequest();
 
-        // Display the request status
-        document.getElementById("statusDetails").innerHTML = "Status: " + status;
-        document.getElementById("statusDisplay").style.display = "block";
+            // Set up the request
+            xhr.open('POST', '<%= request.getContextPath() %>/Visitor/ViewRequest', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        // Prevent form submission
-        return false;
-    }
-</script>
+            // Log the raw response for debugging
+            console.log('Raw response before request:', xhr.responseText);
+
+            // Set up the callback function for when the request is complete
+            xhr.onload = function () {
+                console.log('Raw response after request:', xhr.responseText);
+
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        console.log('Parsed JSON data:', data);
+
+                        // Check if the data contains the request status
+                        if (data && data.status === "success" && data.visitorRecord) {
+                            var requestStatusDiv = document.getElementById("requestStatus");
+                            requestStatusDiv.innerHTML = "<h4>Request Status:</h4>" +
+                                "<br>Your Request Status: " + data.visitorRecord.vstatus +
+                                "<br>";
+                            // Show the request status section
+                            requestStatusDiv.style.display = "block";
+                        } else {
+                            console.error('No valid request status found or unexpected response.');
+                        }
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                    }
+                } else {
+                    console.error('Request failed with status:', xhr.status);
+                }
+            };
+
+            // Set up the callback function for network errors
+            xhr.onerror = function () {
+                console.error('Network error occurred');
+            };
+
+            // Send the request with the visitorName in the body
+            xhr.send('visitorName=' + encodeURIComponent(visitorName));
+
+            // Prevent form submission
+            return false;
+        }
+    </script>
 </body>
 </html>

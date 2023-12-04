@@ -4,45 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Update Prisoner Record - Officer Panel</title>
+    <title>Update Prisoner Record</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css"><!-- Assuming you have a separate CSS file for officer styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
-    
-
-</nav>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Officer Panel</button>
+    </nav>
 
     <!-- Content -->
     <div class="container mt-4">
         <h1 class="mb-4">Update Prisoner Record</h1>
 
-        <!-- Update Prisoner Record Form -->
-        <form id="updateRecordForm" onsubmit="return updatePrisonerRecord()">
-            <!-- Your logic to retrieve a list of prisoners goes here -->
-            <!-- For demonstration purposes, let's assume we have a static list of prisoners -->
+        <!-- View Prisoner Record Form -->
+        <form id="viewRecordForm" onsubmit="return searchPrisoner()" method="post" action="UpdatePrisonerRecord">
             <div class="form-group">
-                <label for="prisonerName">Select Prisoner:</label>
-                <select class="form-control" id="prisonerName" name="prisonerName" required>
-                    <option value="Prisoner1">Prisoner1</option>
-                    <option value="Prisoner2">Prisoner2</option>
-                    <option value="Prisoner3">Prisoner3</option>
-                    <!-- Add more options based on the list of prisoners -->
-                </select>
+                <label for="prisonerName">Enter Prisoner Name:</label>
+                <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
             </div>
-            <div class="form-group">
-                <label for="updatedRecord">Enter Updated Record:</label>
-                <textarea class="form-control" id="updatedRecord" name="updatedRecord" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Update Record</button>
+            <button type="submit" class="btn btn-primary">Search Prisoner</button>
         </form>
+
+        <!-- Display Matched Prisoners -->
+        <div id="matchedPrisoners" class="mt-4" style="display: none;">
+            <h4>Matched Prisoners:</h4>
+            <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
+                <!-- Options will be dynamically populated based on search results -->
+            </select>
+
+            <!-- Combine display form with the search form -->
+            <button type="button" class="btn btn-success mt-2" onclick="showPrisonerRecord()">View Prisoner Record</button>
+        </div>
+
+        <!-- Display Prisoner Record -->
+        <div id="prisonerRecord" class="mt-4" style="display: none;">
+            <!-- Display prisoner record here -->
+            <!-- You may use a table or other HTML elements to display the record -->
+        </div>
+
+        <form id="editPrisonerForm" onsubmit="return editPrisoner()" style="display: none;">
+    <label for="editPrisonerID">Edit Prisoner ID:</label>
+    <input type="text" class="form-control" id="editPrisonerID" name="editPrisonerID" required>
+
+    <label for="editPrisonerName">Edit Prisoner Name:</label>
+    <input type="text" class="form-control" id="editPrisonerName" name="editPrisonerName" required>
+
+    <label for="editPrisonerSentence">Edit Prisoner Sentence:</label>
+    <input type="text" class="form-control" id="editPrisonerSentence" name="editPrisonerSentence" required>
+
+    <label for="editPrisonerCrime">Edit Prisoner Crime:</label>
+    <input type="text" class="form-control" id="editPrisonerCrime" name="editPrisonerCrime" required>
+
+    <label for="editPrisonerRoomID">Edit Prisoner Room ID:</label>
+    <input type="text" class="form-control" id="editPrisonerRoomID" name="editPrisonerRoomID" required>
+
+    <!-- Add other fields as needed for editing prisoner information -->
+
+    <button type="submit" class="btn btn-success mt-2">Edit Prisoner</button>
+</form>
+
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -52,39 +75,201 @@
 
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Your other scripts go here -->
+    
 
-    <!-- Custom JavaScript for form validation and SweetAlert -->
     <script>
-        function updatePrisonerRecord() {
-            var prisonerName = document.getElementById("prisonerName").value;
-            var updatedRecord = document.getElementById("updatedRecord").value;
+    
+    function searchPrisoner() {
+        var prisonerName = document.getElementById("prisonerName").value;
 
-            // Your logic to update the record of the selected prisoner goes here
-            // For demonstration purposes, let's assume a successful update
-            var success = true;
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
 
-            // Display a success or failure message using SweetAlert
-            if (success) {
-                Swal.fire({
-                    title: 'Prisoner Record Updated!',
-                    text: 'The record for ' + prisonerName + ' has been successfully updated.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+        // Set up the request
+        xhr.open('POST', '<%= request.getContextPath() %>/Officer/UpdatePrisonerRecord', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Set up the callback function for when the request is complete
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    var data = JSON.parse(xhr.responseText);
+
+                    // Check if the data contains matched prisoners
+                    if (data && data.matchedPrisoners) {
+                        // Populate the select dropdown with matching prisoners
+                        var selectDropdown = document.getElementById("selectedPrisoner");
+                        selectDropdown.innerHTML = "";
+                        for (var i = 0; i < data.matchedPrisoners.length; i++) {
+                            var option = document.createElement("option");
+                            option.value = data.matchedPrisoners[i];
+                            option.text = data.matchedPrisoners[i];
+                            selectDropdown.appendChild(option);
+                        }
+
+                        // Show the matched prisoners section
+                        document.getElementById("matchedPrisoners").style.display = "block";
+                    } else {
+                        console.error('No matched prisoners found.');
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
             } else {
-                Swal.fire({
-                    title: 'Update Failed!',
-                    text: 'Failed to update the prisoner record.',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 2000
-                });
+                console.error('Request failed with status:', xhr.status);
             }
+        };
 
-            // Prevent form submission
-            return false;
-        }
+        // Set up the callback function for network errors
+        xhr.onerror = function () {
+            console.error('Network error occurred');
+        };
+
+        // Send the request with the prisonerName in the body
+        xhr.send('prisonerName=' + encodeURIComponent(prisonerName));
+
+        // Prevent form submission
+        return false;
+    }
+     
+    function showPrisonerRecord() {
+        var selectedPrisoner = document.getElementById("selectedPrisoner").value;
+
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Set up the request
+        xhr.open('POST', '<%= request.getContextPath() %>/Officer/UpdatePrisonerRecord2', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Set up the callback function for when the request is complete
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    console.log('Raw response:', xhr.responseText); // Debugging line
+
+                    var data = JSON.parse(xhr.responseText);
+
+                    // Check if the data contains the prisoner record
+                    if (data && data.status === "success" && data.prisonerRecord) {
+
+                        prisonerData = data.prisonerRecord;
+
+                        // Display the prisoner record
+                        var prisonerRecordDiv = document.getElementById("prisonerRecord");
+                        prisonerRecordDiv.innerHTML = "<h4>Prisoner Record:</h4>" +
+                            "ID: " + data.prisonerRecord.pid +
+                            "<br>Name: " + data.prisonerRecord.pname +
+                            "<br>Sentence: " + data.prisonerRecord.psentence +
+                            "<br>Crime: " + data.prisonerRecord.pcrime +
+                            "<br>Room ID: " + data.prisonerRecord.proomId +
+                            "<br>";
+
+                        // Show the prisoner record section
+                        prisonerRecordDiv.style.display = "block";
+
+                        // Show the edit prisoner form
+                        var editPrisonerForm = document.getElementById("editPrisonerForm");
+                        editPrisonerForm.style.display = "block";
+
+                        // Populate input fields with prisoner data
+                        var prisonerData = data.prisonerRecord;
+                        document.getElementById("editPrisonerID").value = prisonerData.pid;
+                        document.getElementById("editPrisonerName").value = prisonerData.pname;
+                        document.getElementById("editPrisonerSentence").value = prisonerData.psentence;
+                        document.getElementById("editPrisonerCrime").value = prisonerData.pcrime;
+                        document.getElementById("editPrisonerRoomID").value = prisonerData.proomId;
+
+                    } else {
+                        console.error('No valid prisoner record found or unexpected response.');
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            } else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        // Set up the callback function for network errors
+        xhr.onerror = function () {
+            console.error('Network error occurred');
+        };
+
+        // Send the request with the selectedPrisoner in the body
+        xhr.send('selectedPrisoner=' + encodeURIComponent(selectedPrisoner));
+
+        // Prevent form submission
+        return false;
+    }
+
+       
+    function editPrisoner() {
+        // Get edited prisoner data from input fields
+        var editedPrisoner = {
+            editedPrisonerID: document.getElementById("editPrisonerID").value,
+            editedPrisonerName: document.getElementById("editPrisonerName").value,
+            editedPrisonerSentence: document.getElementById("editPrisonerSentence").value,
+            editedPrisonerCrime: document.getElementById("editPrisonerCrime").value,
+            editedPrisonerRoomID: document.getElementById("editPrisonerRoomID").value
+        };
+
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Set up the request
+        xhr.open('POST', '<%= request.getContextPath() %>/Officer/UpdatePrisonerRecord3', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Set up the callback function for when the request is complete
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    var data = JSON.parse(xhr.responseText);
+
+                    // Check the status returned from the servlet
+                    if (data && data.status === "success") {
+                        // Display a success message using SweetAlert
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Prisoner updated successfully!",
+                            icon: "success",
+                        });
+                    } else {
+                        // Display an error message using SweetAlert
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to update prisoner. Please try again.",
+                            icon: "error",
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            } else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        // Set up the callback function for network errors
+        xhr.onerror = function () {
+            console.error('Network error occurred');
+        };
+
+        // Send the request with the edited prisoner data in the body
+        xhr.send(
+            "editPrisonerID=" + encodeURIComponent(editedPrisoner.editedPrisonerID) +
+            "&editPrisonerName=" + encodeURIComponent(editedPrisoner.editedPrisonerName) +
+            "&editPrisonerSentence=" + encodeURIComponent(editedPrisoner.editedPrisonerSentence) +
+            "&editPrisonerCrime=" + encodeURIComponent(editedPrisoner.editedPrisonerCrime) +
+            "&editPrisonerRoomID=" + encodeURIComponent(editedPrisoner.editedPrisonerRoomID)
+        );
+
+        // Prevent form submission
+        return false;
+    }
+
     </script>
 </body>
 </html>
