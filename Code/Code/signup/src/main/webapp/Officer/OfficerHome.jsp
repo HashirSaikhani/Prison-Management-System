@@ -25,7 +25,7 @@
         <div class="btn-group-horizontal">
             <button class="btn btn-primary" onclick="redirectToViewRecord()">View Duties</button>
             <button class="btn btn-primary" onclick="redirectToAddPrisoner()">Permit Medical Request</button>
-            <button class="btn btn-primary" onclick="redirectToRemovePrisoner()">Record Visitors</button>
+            <button class="btn btn-primary" onclick="redirectToRemovePrisoner()">View Visitor Record</button>
             <button class="btn btn-primary" onclick="redirectToManageOfficer()">Update Prisoner Record</button>
             <button class="btn btn-primary" onclick="redirectToCellAllocation()">Manage Visit Request</button>
 
@@ -48,7 +48,7 @@
         }
 
         function redirectToRemovePrisoner() {
-            window.location.href = '<%= request.getContextPath() %>/Officer/RecordVisitors.jsp';
+            window.location.href = '<%= request.getContextPath() %>/Officer/viewVisitorRecord.jsp';
         }
 
         function redirectToManageOfficer() {

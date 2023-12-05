@@ -4,78 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>File Complaint - Prisoner Panel</title>
+    <title>File Complaint</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-      <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css"> <!-- Assuming you have a separate CSS file for prisoner styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css">
 </head>
 <body>
 
-   <nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light">
     <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
-
 </nav>
-    <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">File Complaint</h1>
 
-        <!-- File Complaint Form -->
-        <form id="fileComplaintForm" onsubmit="return fileComplaint()">
-            <div class="form-group">
-                <label for="complaintName">Person's Name:</label>
-                <input type="text" class="form-control" id="complaintName" name="complaintName" required>
-            </div>
-            <div class="form-group">
-                <label for="complaintInfo">Complaint Information:</label>
-                <textarea class="form-control" id="complaintInfo" name="complaintInfo" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Confirm Complaint</button>
-        </form>
-    </div>
+<!-- Content -->
+<div class="container mt-4">
+    <h1 class="mb-4">File Complaint</h1>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- File Complaint Form -->
+    <form id="fileComplaintForm" onsubmit="return validateForm()" method="post" action="FileComplaint">
+        <div class="form-group">
+            <label for="userName">Your Name</label>
+            <input type="text" class="form-control" id="userName" name="userName" required>
+        </div>
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <div class="form-group">
+            <label for="complaint">Complaint</label>
+            <textarea class="form-control" id="complaint" name="complaint" rows="5" required></textarea>
+        </div>
 
-    <!-- Custom JavaScript for form validation and SweetAlert -->
-    <script>
-        function fileComplaint() {
-            var complaintName = document.getElementById("complaintName").value;
-            var complaintInfo = document.getElementById("complaintInfo").value;
+        <button type="submit" class="btn btn-primary">File Complaint</button>
+    </form>
+</div>
 
-            // Your logic to send the complaint and generate a confirmation goes here
-            // For demonstration purposes, let's assume a successful submission
-            var success = true;
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-            // Display a success or failure message using SweetAlert
-            if (success) {
-                Swal.fire({
-                    title: 'Complaint Sent!',
-                    text: 'Your complaint against ' + complaintName + ' has been sent. Thank you for reporting.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            } else {
-                Swal.fire({
-                    title: 'Submission Failed!',
-                    text: 'Failed to submit the complaint. Please try again.',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
+<!-- SweetAlert2 JS -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="alert/dist/sweetalert.css">
 
-            // Prevent form submission
-            return false;
+<!-- Custom JavaScript for form validation and SweetAlert -->
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var status = "<%= request.getAttribute("status") %>";
+        if (status === "success") {
+            swal("Congrats", "Complaint filed Successfully", "success");
+        } else if (status === "failed") {
+            swal("Sorry", "Failed to file the complaint", "error");
+        } else if (status === "invalidInput") {
+            swal("Sorry", "Please fill in all the fields", "error");
         }
-    </script>
+    });
+</script>
 </body>
 </html>

@@ -4,104 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Request Work Assignment - Prisoner Panel</title>
+    <title>Request Work Assignment</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-      <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css"> <!-- Assuming you have a separate CSS file for prisoner styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css">
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light">
     <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
-   
 </nav>
-    <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Request Work Assignment</h1>
 
-        <!-- Request Work Assignment Form -->
-        <form id="requestWorkAssignmentForm" onsubmit="return requestWorkAssignment()">
-            <!-- Your logic to retrieve a list of available work assignments goes here -->
-            <!-- For demonstration purposes, let's assume we have a static list of work assignments -->
-            <div class="form-group">
-                <label for="availableWork">Select Work Assignment:</label>
-                <select class="form-control" id="availableWork" name="availableWork" required>
-                    <option value="Work1">Work1</option>
-                    <option value="Work2">Work2</option>
-                    <option value="Work3">Work3</option>
-                    <!-- Add more options based on the list of available work assignments -->
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Confirm Request</button>
-        </form>
+<!-- Content -->
+<div class="container mt-4">
+    <h1 class="mb-4">Request Work Assignment</h1>
 
-        <!-- Check Status Form -->
-        <form id="checkStatusForm" class="mt-4" onsubmit="return checkStatus()">
-            <button type="submit" class="btn btn-info">Check Request Status</button>
-        </form>
-
-        <!-- Display Request Status -->
-        <div id="statusDisplay" class="mt-4" style="display: none;">
-            <h4>Request Status:</h4>
-            <p id="statusDetails"></p>
+    <!-- Request Work Assignment Form -->
+    <form id="requestWorkAssignmentForm" onsubmit="return validateForm()" method="post" action="RequestWorkAssignment">
+        <div class="form-group">
+            <label for="prisonerName">Prisoner Name</label>
+            <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
         </div>
-    </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <div class="form-group">
+            <label for="workAssignment">Work Assignment</label>
+            <select class="form-control" id="workAssignment" name="workAssignment" required>
+                <!-- Options will be dynamically populated based on available work assignments -->
+                <option value="Cleaning">Cleaning</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Kitchen Duty">Kitchen Duty</option>
+                <option value="Gardening">Gardening</option>
+                <option value="Laundry">Laundry</option>
+                <option value="Office Assistance">Office Assistance</option>
+                <!-- Add more work assignments as needed -->
+            </select>
+        </div>
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <button type="submit" class="btn btn-primary">Request Work Assignment</button>
+    </form>
+</div>
 
-    <!-- Custom JavaScript for form validation and SweetAlert -->
-    <script>
-        function requestWorkAssignment() {
-            var selectedWork = document.getElementById("availableWork").value;
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-            // Your logic to send the work assignment request confirmation goes here
-            // For demonstration purposes, let's assume a successful confirmation
-            var success = true;
+<!-- SweetAlert2 JS -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="alert/dist/sweetalert.css">
 
-            // Display a success or failure message using SweetAlert
-            if (success) {
-                Swal.fire({
-                    title: 'Request Confirmed!',
-                    text: 'Your request for work assignment has been confirmed. Please wait for further instructions.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            } else {
-                Swal.fire({
-                    title: 'Confirmation Failed!',
-                    text: 'Failed to confirm the work assignment request. Please try again.',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
-
-            // Prevent form submission
-            return false;
+<!-- Custom JavaScript for form validation and SweetAlert -->
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var status = "<%= request.getAttribute("status") %>";
+        if (status === "success") {
+            swal("Congrats", "Work assignment requested Successfully", "success");
+        } else if (status === "failed") {
+            swal("Sorry", "Failed to request work assignment", "error");
+        } else if (status === "invalidInput") {
+            swal("Sorry", "Please fill in all the fields", "error");
         }
-
-        function checkStatus() {
-            // Your logic to retrieve the status of the work assignment request goes here
-            // For demonstration purposes, let's assume we have a static status
-            var status = "Pending";
-
-            // Display the request status
-            document.getElementById("statusDetails").innerHTML = "Status: " + status;
-            document.getElementById("statusDisplay").style.display = "block";
-
-            // Prevent form submission
-            return false;
-        }
-    </script>
+    });
+</script>
 </body>
 </html>

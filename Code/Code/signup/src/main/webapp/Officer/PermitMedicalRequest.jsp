@@ -4,41 +4,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Medical Requests - Officer Panel</title>
+    <title>Manage Medical Request</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-      <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css"><!-- Assuming you have a separate CSS file for officer styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Officer Panel</button>
-    
-       
-  
-    
-</nav>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Officer Panel</button>
+    </nav>
 
     <!-- Content -->
     <div class="container mt-4">
-        <h1 class="mb-4">Medical Requests</h1>
+        <h1 class="mb-4">Manage Medical Request</h1>
 
-        <!-- View Medical Requests Form -->
-        <form id="viewRequestsForm" onsubmit="return viewMedicalRequests()">
-            <button type="submit" class="btn btn-primary">View Medical Requests</button>
+        <!-- Search Prisoner Form -->
+        <form id="searchPrisonerForm" onsubmit="return searchPrisoner()" method="post" action="ManageMedicalRequest">
+            <div class="form-group">
+                <label for="prisonerName">Enter Prisoner Name:</label>
+                <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search Prisoner</button>
         </form>
 
-        <!-- Display Medical Requests -->
-        <div id="medicalRequests" class="mt-4" style="display: none;">
-            <h4>Medical Requests:</h4>
-            <select class="form-control" id="selectedRequest" name="selectedRequest" required>
-                <!-- Options will be dynamically populated based on medical requests -->
+        <!-- Display Matched Prisoners -->
+        <div id="matchedPrisoners" class="mt-4" style="display: none;">
+            <h4>Matched Prisoners:</h4>
+            <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
+                <!-- Options will be dynamically populated based on search results -->
             </select>
-            <button type="button" class="btn btn-success mt-2" onclick="permitRequest()">Permit Request</button>
-            <button type="button" class="btn btn-danger mt-2" onclick="rejectRequest()">Reject Request</button>
+
+            <!-- Combine display form with the search form -->
+            <button type="button" class="btn btn-success mt-2" onclick="showPrisonerRecord()">View Prisoner Record</button>
+        </div>
+
+        <!-- Display Prisoner Record -->
+        <div id="prisonerRecord" class="mt-4" style="display: none;">
+            <!-- Display prisoner record here -->
+            <!-- You may use a table or other HTML elements to display the record -->
+
+            <!-- Edit Prisoner Form -->
+            <form id="editPrisonerForm" onsubmit="return editPrisoner()" style="display: none;">
+                <label for="editPrisonerID">Edit Prisoner ID:</label>
+                <input type="text" class="form-control" id="editPrisonerID" name="editPrisonerID" required>
+
+                <label for="editPrisonerRequestStatus">Edit Prisoner Request Status:</label>
+                <select class="form-control" id="editPrisonerRequestStatus" name="editPrisonerRequestStatus" required>
+                    <option value="approved">Approved</option>
+                    <option value="denied">Denied</option>
+                </select>
+
+                <!-- Add any other prisoner-specific fields here -->
+
+                <button type="submit" class="btn btn-success mt-2">Edit Prisoner</button>
+            </form>
         </div>
     </div>
 
@@ -50,59 +70,198 @@
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Custom JavaScript for form validation and SweetAlert -->
+    <!-- Your other scripts go here -->
+    <!-- Add JavaScript functions for searching and editing prisoners -->
+    
     <script>
-        function viewMedicalRequests() {
-            // Your logic to retrieve a list of medical requests goes here
-            // For demonstration purposes, let's assume we have a static list of requests
-            var requests = ["Request1", "Request2", "Request3"];
+    
+    function searchPrisoner() {
+    var prisonerName = document.getElementById("prisonerName").value;
 
-            // Populate the select dropdown with medical requests
-            var selectDropdown = document.getElementById("selectedRequest");
-            selectDropdown.innerHTML = "";
-            for (var i = 0; i < requests.length; i++) {
-                var option = document.createElement("option");
-                option.value = requests[i];
-                option.text = requests[i];
-                selectDropdown.appendChild(option);
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+
+    // Set up the request
+    xhr.open('POST', '<%= request.getContextPath() %>/Officer/PermitMedicalRequest', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    // Set up the callback function for when the request is complete
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+                var data = JSON.parse(xhr.responseText);
+
+                // Check if the data contains matched prisoners
+                if (data && data.matchedPrisoners) {
+                    // Populate the select dropdown with matching prisoners
+                    var selectDropdown = document.getElementById("selectedPrisoner");
+                    selectDropdown.innerHTML = "";
+                    for (var i = 0; i < data.matchedPrisoners.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = data.matchedPrisoners[i];
+                        option.text = data.matchedPrisoners[i];
+                        selectDropdown.appendChild(option);
+                    }
+
+                    // Show the matched prisoners section
+                    document.getElementById("matchedPrisoners").style.display = "block";
+                } else {
+                    console.error('No matched prisoners found.');
+                }
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
             }
-
-            // Show the medical requests section
-            document.getElementById("medicalRequests").style.display = "block";
-
-            // Prevent form submission
-            return false;
+        } else {
+            console.error('Request failed with status:', xhr.status);
         }
+    };
 
-        function permitRequest() {
-            var selectedRequest = document.getElementById("selectedRequest").value;
+    // Set up the callback function for network errors
+    xhr.onerror = function () {
+        console.error('Network error occurred');
+    };
 
-            // Your logic to handle the permit action for the selected request goes here
-            // You can use AJAX to communicate with the server and update the status of the request
+    // Send the request with the prisonerName in the body
+    xhr.send('prisonerName=' + encodeURIComponent(prisonerName));
 
-            // Display a success message (for demonstration purposes)
-            Swal.fire({
-                title: 'Request Permitted!',
-                icon: 'success',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
+    // Prevent form submission
+    return false;
+}
+    
+    function showPrisonerRecord() {
+        var selectedPrisoner = document.getElementById("selectedPrisoner").value;
 
-        function rejectRequest() {
-            var selectedRequest = document.getElementById("selectedRequest").value;
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
 
-            // Your logic to handle the reject action for the selected request goes here
-            // You can use AJAX to communicate with the server and update the status of the request
+        // Set up the request
+        xhr.open('POST', '<%= request.getContextPath() %>/Officer/PermitMedicalRequest2', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-            // Display a success message (for demonstration purposes)
-            Swal.fire({
-                title: 'Request Rejected!',
-                icon: 'error',
-                showConfirmButton: false,
-                timer: 1500
-            });
-        }
+        // Set up the callback function for when the request is complete
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    console.log('Raw response:', xhr.responseText); // Debugging line
+
+                    var data = JSON.parse(xhr.responseText);
+
+                    // Check if the data contains the prisoner record
+                    if (data && data.status === "success" && data.prisonerRecord) {
+
+                        prisonerData = data.prisonerRecord;
+
+                        // Display the prisoner record
+                        var prisonerRecordDiv = document.getElementById("prisonerRecord");
+
+                        // Check if prisonerRecordDiv is found
+                        if (prisonerRecordDiv) {
+                            console.log('Prisoner Record Div:', prisonerRecordDiv);
+
+                            // Update style only if prisonerRecordDiv is not null
+                            prisonerRecordDiv.style.display = "block";
+                        } else {
+                            console.error('Prisoner Record Div not found.');
+                        }
+
+                        // Show the edit prisoner form
+                        var editPrisonerForm = document.getElementById("editPrisonerForm");
+                        if (editPrisonerForm) {
+                            editPrisonerForm.style.display = "block";
+
+                            // Populate input fields with prisoner data
+                            document.getElementById("editPrisonerID").value = prisonerData.mrid;
+                            document.getElementById("editPrisonerRequestStatus").value = prisonerData.mrstatus;
+                            // Add other fields as needed
+                        } else {
+                            console.error('Edit Prisoner Form not found.');
+                        }
+
+                    } else {
+                        console.error('No valid prisoner record found or unexpected response.');
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            } else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        // Set up the callback function for network errors
+        xhr.onerror = function () {
+            console.error('Network error occurred');
+        };
+
+        // Send the request with the selectedPrisoner in the body
+        xhr.send('selectedPrisoner=' + encodeURIComponent(selectedPrisoner));
+
+        // Prevent form submission
+        return false;
+    }
+
+    function editPrisoner() {
+        // Get edited prisoner data from input fields
+        var editedPrisoner = {
+            editedPrisonerID: document.getElementById("editPrisonerID").value,
+            editedPrisonerStatus: document.getElementById("editPrisonerRequestStatus").value
+        };
+
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Set up the request
+        xhr.open('POST', '<%= request.getContextPath() %>/Officer/PermitMedicalRequest3', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Set up the callback function for when the request is complete
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    var data = JSON.parse(xhr.responseText);
+
+                    // Check the status returned from the servlet
+                    if (data && data.status === "success") {
+                        // Display a success message using SweetAlert
+                        Swal.fire({
+                            title: "Success!",
+                            text: "Prisoner updated successfully!",
+                            icon: "success",
+                        });
+                    } else {
+                        // Display an error message using SweetAlert
+                        Swal.fire({
+                            title: "Error!",
+                            text: "Failed to update prisoner. Please try again.",
+                            icon: "error",
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                }
+            } else {
+                console.error('Request failed with status:', xhr.status);
+            }
+        };
+
+        // Set up the callback function for network errors
+        xhr.onerror = function () {
+            console.error('Network error occurred');
+        };
+
+        // Send the request with the edited prisoner data in the body
+        xhr.send(
+            "editPrisonerID=" + encodeURIComponent(editedPrisoner.editedPrisonerID) +
+            "&editPrisonerRequestStatus=" + encodeURIComponent(editedPrisoner.editedPrisonerStatus)
+        );
+
+        // Prevent form submission
+        return false;
+    }
+    
+    
+    
+    
     </script>
 </body>
 </html>

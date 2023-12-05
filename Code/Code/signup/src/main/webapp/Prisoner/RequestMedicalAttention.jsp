@@ -4,102 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Request Medical Attention - Prisoner Panel</title>
+    <title>Request Medical Attention</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
     <!-- Link to custom styles -->
-     <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css"> <!-- Assuming you have a separate CSS file for prisoner styles -->
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css">
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light">
     <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
-    
 </nav>
-    <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Request Medical Attention</h1>
 
-        <!-- Request Medical Attention Form -->
-        <form id="requestMedicalAttentionForm" onsubmit="return requestMedicalAttention()">
-            <div class="form-group">
-                <label for="diseaseType">Type of Disease:</label>
-                <input type="text" class="form-control" id="diseaseType" name="diseaseType" required>
-            </div>
-            <div class="form-group">
-                <label for="medicalInfo">Medical Information:</label>
-                <textarea class="form-control" id="medicalInfo" name="medicalInfo" rows="3" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Request</button>
-        </form>
+<!-- Content -->
+<div class="container mt-4">
+    <h1 class="mb-4">Request Medical Attention</h1>
 
-        <!-- Check Status Form -->
-        <form id="checkStatusForm" class="mt-4" onsubmit="return checkStatus()">
-            <button type="submit" class="btn btn-info">Check Request Status</button>
-        </form>
-
-        <!-- Display Request Status -->
-        <div id="statusDisplay" class="mt-4" style="display: none;">
-            <h4>Request Status:</h4>
-            <p id="statusDetails"></p>
+    <!-- Request Medical Attention Form -->
+    <form id="requestMedicalAttentionForm" onsubmit="return validateForm()" method="post" action="RequestMedicalAttention">
+        <div class="form-group">
+            <label for="prisonerName">Prisoner Name</label>
+            <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
         </div>
-    </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <div class="form-group">
+            <label for="disease">Disease</label>
+            <select class="form-control" id="disease" name="disease" required>
+                <!-- Options will be dynamically populated based on available diseases -->
+                 <option value="Fever">Fever</option>
+       			 <option value="Cough">Cough</option>
+       			 <option value="Headache">Headache</option>
+        		 <option value="Injury">Injury</option>
+        		 <option value="Cold">Cold</option>
+       		     <option value="Flu">Flu</option>
+       		     <option value="Stomachache">Stomachache</option>
+     		     <option value="Back Pain">Back Pain</option>
+      		     <option value="Sprain">Sprain</option>
+      		     <option value="Allergy">Allergy</option>
+     		     <option value="Asthma">Asthma</option>
+            </select>
+        </div>
 
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <button type="submit" class="btn btn-primary">Request Medical Attention</button>
+    </form>
+</div>
 
-    <!-- Custom JavaScript for form validation and SweetAlert -->
-    <script>
-        function requestMedicalAttention() {
-            var diseaseType = document.getElementById("diseaseType").value;
-            var medicalInfo = document.getElementById("medicalInfo").value;
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-            // Your logic to save the medical request and generate a confirmation goes here
-            // For demonstration purposes, let's assume a successful submission
-            var success = true;
+<!-- SweetAlert2 JS -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link rel="stylesheet" href="alert/dist/sweetalert.css">
 
-            // Display a success or failure message using SweetAlert
-            if (success) {
-                Swal.fire({
-                    title: 'Request Submitted!',
-                    text: 'Your request for medical attention has been submitted. Please wait for confirmation.',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            } else {
-                Swal.fire({
-                    title: 'Submission Failed!',
-                    text: 'Failed to submit the medical request. Please try again.',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 3000
-                });
-            }
-
-            // Prevent form submission
-            return false;
+<!-- Custom JavaScript for form validation and SweetAlert -->
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var status = "<%= request.getAttribute("status") %>";
+        if (status === "success") {
+            swal("Congrats", "Medical attention requested Successfully", "success");
+        } else if (status === "failed") {
+            swal("Sorry", "Failed to request medical attention", "error");
+        } else if (status === "invalidInput") {
+            swal("Sorry", "Please fill in all the fields", "error");
         }
-
-        function checkStatus() {
-            // Your logic to retrieve the status of the medical request goes here
-            // For demonstration purposes, let's assume we have a static status
-            var status = "Pending";
-
-            // Display the request status
-            document.getElementById("statusDetails").innerHTML = "Status: " + status;
-            document.getElementById("statusDisplay").style.display = "block";
-
-            // Prevent form submission
-            return false;
-        }
-    </script>
+    });
+</script>
 </body>
 </html>

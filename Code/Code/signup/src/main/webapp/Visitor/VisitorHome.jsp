@@ -4,38 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Officer Home</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
- <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor2.css">
 
 
 </head>
 <body>
 
     <!-- Navbar -->
-   
-      <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
+   <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-left">Log out</button></li>
+    </ul>
+    </div>  
     
-       
-      <div style="position: absolute; top: 10px; right: 10px;">
-  <button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-right" style="color: white;">Log out</button>
-	</div>
-    
-</nav>
+
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Visitor Homepage</h1>
+    <div class="content">
+        <h1>Visitor Homepage</h1>
 
         <!-- Buttons -->
-        <div class="btn-group-horizontal">
-            <button class="btn btn-primary" onclick="redirectToViewRecord()">Request to Visit</button>
-            <button class="btn btn-primary" onclick="redirectToAddPrisoner()">View Request</button>
+            <button class="btn btn-info" onclick="redirectToViewRecord()">Request to Visit<span class="custom-span"></span></button>
+            <button class="btn btn-info" onclick="redirectToAddPrisoner()"><span class="custom-span"></span>View Request</button>
            
-        </div>
+        
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

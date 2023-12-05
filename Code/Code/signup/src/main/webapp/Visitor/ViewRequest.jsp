@@ -5,27 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>View Request Status</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
-    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor.css">
+    <link rel="stylesheet" href="<%= request.getContextPath() %>/Visitor/styles/visitor2.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Visitor/VisitorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
-    <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">View Request Status</h1>
+     <!-- Content -->
+    <div class="content">
+        <h1>View Request Status</h1>
 
         <!-- View Request Form -->
         <form id="viewRequestForm" onsubmit="return viewStatus()" method="post" action="viewRequest">
             <div class="form-group">
                 <label for="visitorName">Enter Your Name:</label>
-                <input type="text" class="form-control" id="visitorName" name="visitorName" required>
+                <input type="text" id="visitorName" name="visitorName" required>
             </div>
-            <button type="submit" class="btn btn-primary">View Request Status</button>
+            <button type="submit" class="btn btn-primary"><span class="custom-span"></span>View Request Status</button>
         </form>
 
         <!-- Display Request Status -->
@@ -33,6 +34,7 @@
             
         </div>
     </div>
+  </div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
