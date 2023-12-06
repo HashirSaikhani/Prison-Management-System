@@ -5,61 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Manage Medical Request</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Officer Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Manage Medical Request</h1>
+    <div class="content">
+        <h2>Manage Medical Request</h2>
 
         <!-- Search Prisoner Form -->
         <form id="searchPrisonerForm" onsubmit="return searchPrisoner()" method="post" action="ManageMedicalRequest">
-            <div class="form-group">
+            
                 <label for="prisonerName">Enter Prisoner Name:</label>
-                <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Prisoner</button>
+                <input type="text"  id="prisonerName" name="prisonerName" required><br>
+         
+            <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Search Prisoner</button>
         </form>
 
         <!-- Display Matched Prisoners -->
-        <div id="matchedPrisoners" class="mt-4" style="display: none;">
+        <div id="matchedPrisoners" style="display: none;">
             <h4>Matched Prisoners:</h4>
-            <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
+            <select id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
 
             <!-- Combine display form with the search form -->
-            <button type="button" class="btn btn-success mt-2" onclick="showPrisonerRecord()">View Prisoner Record</button>
+            <br>
+            <button type="button" class="btn btn-info" onclick="showPrisonerRecord()"><span class="custom-span"></span>View Prisoner Record</button>
         </div>
 
         <!-- Display Prisoner Record -->
-        <div id="prisonerRecord" class="mt-4" style="display: none;">
+        <div id="prisonerRecord" style="display: none;">
             <!-- Display prisoner record here -->
             <!-- You may use a table or other HTML elements to display the record -->
 
             <!-- Edit Prisoner Form -->
             <form id="editPrisonerForm" onsubmit="return editPrisoner()" style="display: none;">
                 <label for="editPrisonerID">Edit Prisoner ID:</label>
-                <input type="text" class="form-control" id="editPrisonerID" name="editPrisonerID" required>
+                <input type="text"  id="editPrisonerID" name="editPrisonerID" required>
 
                 <label for="editPrisonerRequestStatus">Edit Prisoner Request Status:</label>
-                <select class="form-control" id="editPrisonerRequestStatus" name="editPrisonerRequestStatus" required>
+                <select id="editPrisonerRequestStatus" name="editPrisonerRequestStatus" required>
                     <option value="approved">Approved</option>
                     <option value="denied">Denied</option>
                 </select>
 
                 <!-- Add any other prisoner-specific fields here -->
-
-                <button type="submit" class="btn btn-success mt-2">Edit Prisoner</button>
+                <br>
+                <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Edit Prisoner</button>
             </form>
         </div>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -148,7 +151,6 @@
 
                     // Check if the data contains the prisoner record
                     if (data && data.status === "success" && data.prisonerRecord) {
-
                         prisonerData = data.prisonerRecord;
 
                         // Display the prisoner record
@@ -176,7 +178,6 @@
                         } else {
                             console.error('Edit Prisoner Form not found.');
                         }
-
                     } else {
                         console.error('No valid prisoner record found or unexpected response.');
                     }
@@ -199,6 +200,7 @@
         // Prevent form submission
         return false;
     }
+
 
     function editPrisoner() {
         // Get edited prisoner data from input fields

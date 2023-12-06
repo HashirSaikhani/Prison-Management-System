@@ -12,28 +12,26 @@
 <body>
 
     <!-- Navbar -->
-   
-    <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
-       
-      <div style="position: absolute; top: 10px; right: 10px;">
-  <button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-right" style="color: white;">Log out</button>
-	</div>
     
- 
-</nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-left" style="color: white;">Logout</button></li>
+    </ul>
+    </div>
+   
     <!-- Content -->
-    <div class="container mt-4">
+    <div class="content">
         <h1 class="mb-4">Prisoner Homepage</h1>
 
         <!-- Buttons -->
-        <div class="btn-group-horizontal">
-            <button class="btn btn-primary" onclick="redirectToViewRecord()">Request for Medical Attention</button>
-            <button class="btn btn-primary" onclick="redirectToAddPrisoner()">Request for Work Assignment</button>
-            <button class="btn btn-primary" onclick="redirectToRemovePrisoner()">Request for Visitors</button>
-            <button class="btn btn-primary" onclick="redirectToManageOfficer()">File Complaint</button>
+   
+            <button class="btn btn-info" onclick="redirectToViewRecord()"><span class="custom-span"></span>Request for Medical Attention</button>
+            <button class="btn btn-info" onclick="redirectToAddPrisoner()"><span class="custom-span"></span>Request for Work Assignment</button>
+            <button class="btn btn-info" onclick="redirectToRemovePrisoner()"><span class="custom-span"></span>Request for Visitors</button>
+            <button class="btn btn-info" onclick="redirectToManageOfficer()"><span class="custom-span"></span>File Complaint</button>
           
-        </div>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

@@ -4,32 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Officer Home</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Visitor Panel</button>
-    
-    
-</nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-left">Log out</button></li>
+    </ul>
+    </div>
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Officer Homepage</h1>
+    <div class="content">
+        <h1>Officer Homepage</h1>
 
         <!-- Buttons -->
         <div class="btn-group-horizontal">
-            <button class="btn btn-primary" onclick="redirectToViewRecord()">View Duties</button>
-            <button class="btn btn-primary" onclick="redirectToAddPrisoner()">Permit Medical Request</button>
-            <button class="btn btn-primary" onclick="redirectToRemovePrisoner()">View Visitor Record</button>
-            <button class="btn btn-primary" onclick="redirectToManageOfficer()">Update Prisoner Record</button>
-            <button class="btn btn-primary" onclick="redirectToCellAllocation()">Manage Visit Request</button>
+            <button class="btn btn-indfo" onclick="redirectToViewRecord()"><span class="custom-span"></span>View Duties</button><br>
+            <button class="btn btn-info" onclick="redirectToAddPrisoner()"><span class="custom-span"></span>Permit Medical Request</button><br>
+            <button class="btn btn-info" onclick="redirectToRemovePrisoner()"><span class="custom-span"></span>View Visitor Record</button><br>
+            <button class="btn btn-info" onclick="redirectToManageOfficer()"><span class="custom-span"></span>Update Prisoner Record</button><br>
+            <button class="btn btn-info" onclick="redirectToCellAllocation()"><span class="custom-span"></span>Manage Visit Request</button>
 
         </div>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

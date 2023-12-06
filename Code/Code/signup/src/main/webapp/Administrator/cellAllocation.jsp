@@ -5,39 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Cell Allocation</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Cell Allocation</h1>
+    <div class="content">
+        <h1>Cell Allocation</h1>
 
         <!-- Cell Allocation Form -->
         <form id="cellAllocationForm" onsubmit="return searchPrisoner()" method="post" action="cellAllocation">
-            <div class="form-group">
+ 
                 <label for="prisonerName">Enter Prisoner Name:</label>
-                <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Prisoner</button>
+                <input type="text" id="prisonerName" name="prisonerName" required><br>
+                <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Search Prisoner</button>
         </form>
+        
 
         <!-- Display Matched Prisoners -->
-        <div id="matchedPrisoners" class="mt-4" style="display: none;">
+        <div id="matchedPrisoners" style="display: none;">
             <h4>Matched Prisoners:</h4>
-            <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
+            <select id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
 
             <!-- Combine allocation form with the search form -->
-            <button type="button" class="btn btn-info mt-2" onclick="cellAllocation2()">Allocate Cell</button>
         </div>
+        <button type="button" class="btn btn-primary" onclick="cellAllocation2()"><span class="custom2-span"></span>Allocate Cell</button>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

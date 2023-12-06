@@ -50,8 +50,11 @@ public class ViewRequest extends HttpServlet {
                         .build();
             } else {
                 // No record found for the selected visitor
+            	System.out.println("not found");
                 System.out.println("No record found for visitorName: " + visitorName);
-                jsonResponse = Json.createObjectBuilder().add("status", "failed").build();
+                jsonResponse = Json.createObjectBuilder()
+                        .add("status", "notFound")
+                        .build();
             }
 
             // Write the JSON response to the PrintWriter
@@ -104,3 +107,4 @@ public class ViewRequest extends HttpServlet {
                 .build();
     }
 }
+

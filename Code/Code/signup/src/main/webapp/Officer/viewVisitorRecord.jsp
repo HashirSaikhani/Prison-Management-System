@@ -5,45 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>View Visitor Record</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Officer Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">View Visitor Record</h1>
+    <div class="content">
+        <h1>View Visitor Record</h1>
 
         <!-- View Visitor Record Form -->
         <form id="viewRecordForm" onsubmit="return searchVisitor()" method="post" action="viewRecord">
-            <div class="form-group">
+        
                 <label for="visitorName">Enter Visitor Name:</label>
-                <input type="text" class="form-control" id="visitorName" name="visitorName" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Visitor</button>
+                <input type="text" id="visitorName" name="visitorName" required><br>
+       
+            <button type="submit" class="btn btn-info"><span class="custom-span"></span>Search Visitor</button>
         </form>
 
         <!-- Display Matched Visitors -->
-        <div id="matchedVisitors" class="mt-4" style="display: none;">
+        <div id="matchedVisitors" style="display: none;">
             <h4>Matched Visitors:</h4>
-            <select class="form-control" id="selectedVisitor" name="selectedVisitor" required>
+            <select id="selectedVisitor" name="selectedVisitor" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
 
             <!-- Combine display form with the search form -->
-            <button type="button" class="btn btn-success mt-2" onclick="showVisitorRecord()">View Visitor Record</button>
+            <br>
+            <button type="button" class="btn btn-info" onclick="showVisitorRecord()"><span class="custom-span"></span>View Visitor Record</button>
         </div>
 
         <!-- Display Visitor Record -->
-        <div id="visitorRecord" class="mt-4" style="display: none;">
+        <div id="visitorRecord" style="display: none;">
             <!-- Display visitor record here -->
             <!-- You may use a table or other HTML elements to display the record -->
         </div>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -162,6 +165,7 @@
         // Prevent form submission
         return false;
     }
+
 
     
     

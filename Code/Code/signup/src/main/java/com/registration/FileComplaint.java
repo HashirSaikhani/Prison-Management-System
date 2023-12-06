@@ -34,21 +34,28 @@ public class FileComplaint extends HttpServlet {
             // Retrieve prisoner ID based on the name
             int prisonerId = getPrisonerId(con, prisonerName);
 
-            // Insert medical request with status Pending
-            PreparedStatement pst = con.prepareStatement(
-                    "INSERT INTO complaint (cprisonerid, ccomplain, cpname) VALUES (?, ?, ?)");
-            pst.setInt(1, prisonerId);
-            pst.setString(2, complaint);
-            pst.setString(3, prisonerName);
+            if (prisonerId == -1) {
+                // Prisoner not found
+                request.setAttribute("status", "prisonerNotFound");
+            } else {
+                // Insert complaint with status success or failure
+                PreparedStatement pst = con.prepareStatement(
+                        "INSERT INTO complaint (cprisonerid, ccomplain, cpname) VALUES (?, ?, ?)");
+                pst.setInt(1, prisonerId);
+                pst.setString(2, complaint);
+                pst.setString(3, prisonerName);
 
-            int rowCount = pst.executeUpdate();
+                int rowCount = pst.executeUpdate();
+
+                if (rowCount > 0) {
+                    request.setAttribute("status", "success");
+                } else {
+                    request.setAttribute("status", "failed");
+                }
+            }
 
             dispatcher = request.getRequestDispatcher("/Prisoner/FileComplaint.jsp");
-            if (rowCount > 0) {
-                request.setAttribute("status", "success");
-            } else {
-                request.setAttribute("status", "failed");
-            }
+            dispatcher.forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +67,6 @@ public class FileComplaint extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            dispatcher.forward(request, response);
         }
     }
 
@@ -78,3 +84,4 @@ public class FileComplaint extends HttpServlet {
         return prisonerId;
     }
 }
+

@@ -5,33 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>View Assigned Duty</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Officer/styles/officer.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left" style="color: white;">Officer Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Officer/OfficerHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
+    <div class="content">
         <h1 class="mb-4">View Assigned Duty</h1>
 
         <!-- View Officer Duties Form -->
         <form id="viewDutiesForm" onsubmit="return showOfficerRecord()" method="post" action="viewDuties">
-            <div class="form-group">
+       
                 <label for="officerId">Enter Officer ID:</label>
-                <input type="text" class="form-control" id="officerId" name="officerId" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Duty</button>
+                <input type="text" id="officerId" name="officerId" required><br>
+       
+            <button type="submit" class="btn btn-info"><span class="custom-span"></span>Search Duty</button>
         </form>
 
         <!-- Display Officer Duties -->
-        <div id="officerDuties" class="mt-4" style="display: none;">
+        <div id="officerDuties" style="display: none;">
             
         </div>
+    </div>
     </div>
 
      <!-- Bootstrap JS and dependencies -->
@@ -75,6 +77,13 @@
                             "<br>";
                         // Show the officer details section
                         officerRecordDiv.style.display = "block";
+                    } else if (data && data.status === "notFound") {
+                        // Show SweetAlert indicating officer not found
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Officer Not Found',
+                            text: 'No record found for the provided Officer ID',
+                        });
                     } else {
                         console.error('No valid officer record found or unexpected response.');
                     }

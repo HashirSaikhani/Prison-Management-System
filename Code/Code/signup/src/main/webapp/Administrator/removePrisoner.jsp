@@ -5,40 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Remove Prisoner</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Remove Prisoner</h1>
+    <div class="content">
+        <h1>Remove Prisoner</h1>
 
         <!-- Remove Prisoner Form -->
         <form id="removePrisonerForm" onsubmit="return searchPrisoner()" method="post" action="removePrisoner">
-            <div class="form-group">
                 <label for="prisonerName">Enter Prisoner Name:</label>
-                <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Prisoner</button>
+                <input type="text" class="form-control" id="prisonerName" name="prisonerName" required><br>
+            <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Search Prisoner</button>
         </form>
 
         <!-- Display Matched Prisoners -->
-        <div id="matchedPrisoners" class="mt-4" style="display: none;">
+        <div id="matchedPrisoners" style="display: none;">
             <h4>Matched Prisoners:</h4>
-            <select class="form-control" id="selectedPrisoner" name="selectedPrisoner" required>
+            <select id="selectedPrisoner" name="selectedPrisoner" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
 
             <!-- Combine removal form with the search form -->
-            <button type="button" class="btn btn-danger mt-2" onclick="removePrisoner()">Remove Prisoner</button>
+            <button type="button" class="btn btn-danger" onclick="removePrisoner()">Remove Prisoner</button>
         </div>
     </div>
+    </div>
+    
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

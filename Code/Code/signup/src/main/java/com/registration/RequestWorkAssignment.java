@@ -34,21 +34,28 @@ public class RequestWorkAssignment extends HttpServlet {
             // Retrieve prisoner ID based on the name
             int prisonerId = getPrisonerId(con, prisonerName);
 
-            // Insert work assignment request
-            PreparedStatement pst = con.prepareStatement(
-                    "INSERT INTO work_assignment (wprisonerid, wwork, wpname) VALUES (?, ?, ?)");
-            pst.setInt(1, prisonerId);
-            pst.setString(2, workAssignment);
-            pst.setString(3, prisonerName);
+            if (prisonerId == -1) {
+                // Prisoner not found
+                request.setAttribute("status", "prisonerNotFound");
+            } else {
+                // Insert work assignment request with status success or failure
+                PreparedStatement pst = con.prepareStatement(
+                        "INSERT INTO work_assignment (wprisonerid, wwork, wpname) VALUES (?, ?, ?)");
+                pst.setInt(1, prisonerId);
+                pst.setString(2, workAssignment);
+                pst.setString(3, prisonerName);
 
-            int rowCount = pst.executeUpdate();
+                int rowCount = pst.executeUpdate();
+
+                if (rowCount > 0) {
+                    request.setAttribute("status", "success");
+                } else {
+                    request.setAttribute("status", "failed");
+                }
+            }
 
             dispatcher = request.getRequestDispatcher("/Prisoner/RequestWorkAssignment.jsp");
-            if (rowCount > 0) {
-                request.setAttribute("status", "success");
-            } else {
-                request.setAttribute("status", "failed");
-            }
+            dispatcher.forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +67,6 @@ public class RequestWorkAssignment extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            dispatcher.forward(request, response);
         }
     }
 
@@ -78,3 +84,4 @@ public class RequestWorkAssignment extends HttpServlet {
         return prisonerId;
     }
 }
+

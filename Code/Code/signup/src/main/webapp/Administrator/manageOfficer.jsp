@@ -5,39 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Manage Officer</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Manage Officer</h1>
+    <div class="content">
+        <h2>Manage Officer</h2>
 
         <!-- View Officer Record Form -->
         <form id="viewRecordForm" onsubmit="return searchOfficer()" method="post" action="viewRecord">
-            <div class="form-group">
                 <label for="officerName">Enter Officer Name:</label>
-                <input type="text" class="form-control" id="officerName" name="officerName" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Officer</button>
+                <input type="text" class="form-control" id="officerName" name="officerName" required><br>
+                <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Search Officer</button>
         </form>
 
         <!-- Display Matched Officers -->
-        <div id="matchedOfficers" class="mt-4" style="display: none;">
+        <div id="matchedOfficers" style="display: none;">
             <h4>Matched Officers:</h4>
-            <select class="form-control" id="selectedOfficer" name="selectedOfficer" required>
+            <select id="selectedOfficer" name="selectedOfficer" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
-
-            <!-- Combine display form with the search form -->
-            <button type="button" class="btn btn-success mt-2" onclick="showOfficerRecord()">View Officer Record</button>
         </div>
+        <!-- Combine display form with the search form -->
+            <button type="button" class="btn btn-primary" onclick="showOfficerRecord()"><span class="custom2-span"></span>View Officer Record</button>
 
         <!-- Display Officer Record -->
         <div id="officerRecord" class="mt-4" style="display: none;">
@@ -50,26 +48,28 @@
 
 
      <label for="editOfficerID">Edit Officer ID:</label>
-    <input type="text" class="form-control" id="editOfficerID" name="editOfficerID" required>
+    <input type="text" id="editOfficerID" name="editOfficerID" required>
      
     <label for="editOfficerName">Edit Officer Name:</label>
-    <input type="text" class="form-control" id="editOfficerName" name="editOfficerName" required>
+    <input type="text" id="editOfficerName" name="editOfficerName" required>
 
     <label for="editOfficerEmail">Edit Officer Email:</label>
-    <input type="text" class="form-control" id="editOfficerEmail" name="editOfficerEmail" required>
+    <input type="text" id="editOfficerEmail" name="editOfficerEmail" required>
 
     <label for="editOfficerPassword">Edit Officer Password:</label>
-    <input type="password" class="form-control" id="editOfficerPassword" name="editOfficerPassword" required>
+    <input type="password" id="editOfficerPassword" name="editOfficerPassword" required>
 
     <label for="editOfficerMobile">Edit Officer Mobile:</label>
-    <input type="text" class="form-control" id="editOfficerMobile" name="editOfficerMobile" required>
+    <input type="text" id="editOfficerMobile" name="editOfficerMobile" required>
 
     <label for="editOfficerDuty">Edit Officer Duty:</label>
-    <input type="text" class="form-control" id="editOfficerDuty" name="editOfficerDuty" required>
+    <input type="text" id="editOfficerDuty" name="editOfficerDuty" required>
 
-    <button type="submit" class="btn btn-success mt-2">Edit Officer</button>
+     <br>
+    <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Edit Officer</button>
 </form>
 
+  </div>
   </div>
     
 

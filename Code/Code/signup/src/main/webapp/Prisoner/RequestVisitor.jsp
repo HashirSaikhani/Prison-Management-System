@@ -5,42 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Request Visitor</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
-</nav>
+	<div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
-<!-- Content -->
-<div class="container mt-4">
-    <h1 class="mb-4">Request Visitor</h1>
+    <!-- Content -->
+    <div class="content">
+        <h1>Request Visitor</h1>
 
-    <!-- Request Visitor Form -->
-    <form id="requestVisitorForm" onsubmit="return validateForm()" method="post" action="RequestVisitor">
-        <div class="form-group">
+        <!-- Request Visitor Form -->
+        <form id="requestVisitorForm" onsubmit="return validateForm()" method="post" action="RequestVisitor">
             <label for="prisonerName">Prisoner Name</label>
-            <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
-        </div>
+            <input type="text" id="prisonerName" name="prisonerName" required>
 
-        <div class="form-group">
             <label for="visitorType">Visitor Type</label>
-            <select class="form-control" id="visitorType" name="visitorType" required>
+            <select id="visitorType" name="visitorType" required>
                 <!-- Options will be dynamically populated based on available visitor types -->
                 <option value="Family">Family</option>
                 <option value="Friend">Friend</option>
                 <option value="Legal Representative">Legal Representative</option>
                 <option value="Religious Leader">Religious Leader</option>
                 <!-- Add more visitor types as needed -->
-            </select>
-        </div>
+            </select><br>
 
-        <button type="submit" class="btn btn-primary">Request Visitor</button>
-    </form>
+            <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Request Visitor</button>
+        </form>
+    </div>
 </div>
 
 <!-- Bootstrap JS and dependencies -->
@@ -49,21 +47,39 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <!-- SweetAlert2 JS -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<link rel="stylesheet" href="alert/dist/sweetalert.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Custom JavaScript for form validation and SweetAlert -->
 <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        var status = "<%= request.getAttribute("status") %>";
-        if (status === "success") {
-            swal("Congrats", "Visitor request submitted Successfully", "success");
-        } else if (status === "failed") {
-            swal("Sorry", "Failed to submit visitor request", "error");
-        } else if (status === "invalidInput") {
-            swal("Sorry", "Please fill in all the fields", "error");
-        }
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    var status = "<%= request.getAttribute("status") %>";
+    if (status === "success") {
+        Swal.fire({
+            icon: 'success',
+            title: 'Congrats',
+            text: 'Visitor request submitted Successfully',
+        });
+    } else if (status === "failed") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Sorry',
+            text: 'Failed to submit visitor request',
+        });
+    } else if (status === "invalidInput") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Sorry',
+            text: 'Please fill in all the fields',
+        });
+    } else if (status === "prisonerNotFound") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Sorry',
+            text: 'Prisoner not found. Please enter a valid name.',
+        });
+    }
+});
+
 </script>
 </body>
 </html>

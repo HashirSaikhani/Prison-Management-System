@@ -30,9 +30,7 @@
         </form>
 
         <!-- Display Request Status -->
-        <div id="requestStatus" class="mt-4" style="display: none;">
-            
-        </div>
+        <div id="requestStatus" class="mt-4" style="display: none;"></div>
     </div>
   </div>
 
@@ -55,17 +53,11 @@
             xhr.open('POST', '<%= request.getContextPath() %>/Visitor/ViewRequest', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-            // Log the raw response for debugging
-            console.log('Raw response before request:', xhr.responseText);
-
             // Set up the callback function for when the request is complete
             xhr.onload = function () {
-                console.log('Raw response after request:', xhr.responseText);
-
                 if (xhr.status >= 200 && xhr.status < 300) {
                     try {
                         var data = JSON.parse(xhr.responseText);
-                        console.log('Parsed JSON data:', data);
 
                         // Check if the data contains the request status
                         if (data && data.status === "success" && data.visitorRecord) {
@@ -75,6 +67,13 @@
                                 "<br>";
                             // Show the request status section
                             requestStatusDiv.style.display = "block";
+                        } else if (data && data.status === "notFound") {
+                            // Show a SweetAlert if the user is not found
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'User Not Found',
+                                text: 'No record found for the entered name.',
+                            });
                         } else {
                             console.error('No valid request status found or unexpected response.');
                         }

@@ -2,36 +2,442 @@
 
 /* styles.css */
 
-body {
-    background-color: #f0f8ff; /* Light Blue background color */
+
+*{margin:0;
+padding:0;
+font-family:sans-serif;
+}
+
+.banner{
+	width:100%;
+	height:100vh;
+	background-image:linear-gradient(rgba(0,0,0,0.75),rgb(0,0,0,0.75)),url(prisoner.jpg);
+	background-size:cover;
+	background-position:center;
 }
 
 .navbar {
-    background-color: #007bff;
+    width: 85%;
+    margin:auto;
+    padding: 35px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
 }
 
-.container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin-top: 20px;
+.logo{
+	width:120px;
+	cursor:pointer;
 }
 
-h1 {
-    color: #007bff;
+.navbar ul li{
+	list-style:none;
+	display: inline-block;
+	margin:0 20px;
+	position: relative;
+}
+.navbar ul li a{
+	text-decoration: none;
+	color:#fff;
+	text-transform: uppercase;
+}
+.navbar ul li::after{
+	content: '';
+	height:3px;
+	width: 0;
+	background: saddlebrown;
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	transition: 0.3s;
+	-webkit-transition: 0.5s;
+	-moz-transition: 0.5s;
+	-o-transition: 0.5s;
+
+	}
+.navbar ul li:hover::after{
+	width: 100%;
+	transition: 0.5s;	
+	-webkit-transition: 0.5s;
+	-moz-transition: 0.5s;
+	-o-transition: 0.5s;
+
+	}
+.content {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
 }
 
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    width: 100%; /* Make the button fill the width */
-    height: 100px; /* Set the height as needed */
-    margin: 10px 0; /* Adjust margin for spacing */
-    font-size: 18px; /* Adjust font size as needed */
+.content h1{
+	font-size:70px;
+	margin-top:80px;
+}
+.content p{
+	margin: 20px auto;
+	font-weight: 100;
+	line-height: 25px;
+	
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+button {
+    width: 300px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 10px 0; 
+    border-radius: 25px;
+    margin: 15px 0;
+    font-weight: bold;
+    border: 1.5px solid dimgrey;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-span{
+	background: saddlebrown;
+	height: 100%;
+	width: 0;
+	border-radius: 25px;
+	position: absolute;
+	left:0;
+	bottom:0;
+	z-index:-1;
+	transition:0.5s;
+	
+}
+
+.custom2-span{
+	background:#009688;
+	height: 100%;
+	width: 0;
+	border-radius: 25px;
+	position: absolute;
+	left:0;
+	bottom:0;
+	z-index:-1;
+	transition:0.5s;
+	
+}
+.content button {
+            font-size: 16px; 
+        }
+button:hover span{
+	width: 100%;
+}
+button:hover{
+	border:none;
+}
+
+
+.content label {
+    display: block;
+    margin: 10px 0;
+}
+
+.content input {
+    width: 300px;
+    padding: 15px;
+    border-radius: 25px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.content textarea {
+    width: 20%;
+    padding: 10px;
+    border-radius: 25px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+
+button.btn-primary {
+    width: 300px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 10px 0; 
+    border-radius: 25px;
+    margin: 15px 0;
+    font-weight: bold;
+    border: 1.5px solid dimgrey;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+button.btn-primary:hover {
+    background-color: #009688;
+}
+
+button.btn-primary:hover span {
+    width: 100%;
+}
+
+
+button.btn-info {
+    width: 300px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 10px 0; 
+    border-radius: 25px;
+    margin: 15px 0;
+    font-weight: bold;
+    border: 1.5px solid dimgrey;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+button.btn-info:hover {
+    background-color: saddlebrown;
+}
+
+button.btn-info:hover span {
+    width: 100%;
+}
+
+
+button.btn-info:hover {
+    border: none;
+}
+
+
+button.btn-primary-left{
+    width: 50px;
+    padding: 5px 0;
+    text-align: center;
+    margin: 5px 0; 
+    border-radius: 25px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+button.btn-primary-left:hover {
+    background-color: transparent;
+}
+
+button.btn-btn-primary-left:hover span {
+    width: 100%;
+}
+
+
+button.btn-btn-primary-left:hover {
+    border: none;
+}
+
+
+select#availableWork {
+    width: 300px;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd; 
+    background-color: transparent; 
+    text-align: center; 
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+select#availableWork option {
+    background-color: #fff; 
+    color: #333; 
+}
+
+
+select#availableWork:hover {
+    border-color: rgb(128, 128, 128); 
+}
+
+
+select#availableWork:focus {
+    outline: none; 
+    border-color: dimgrey; 
+    box-shadow: 0 0 5px dimgrey; 
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 25px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+}
+
+.form-group select option {
+    background-color: #fff;
+    color: #333;
+}
+
+
+select#availableWork {
+    width: 300px;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd; 
+    background-color: transparent; 
+    text-align: center; 
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+select#availableWork option {
+    background-color: #fff; 
+    color: #333; 
+}
+
+
+select#availableWork:hover {
+    border-color: rgb(128, 128, 128); 
+}
+
+
+select#availableWork:focus {
+    outline: none; 
+    border-color: dimgrey; 
+    box-shadow: 0 0 5px dimgrey; 
+}
+
+
+select#visitorType {
+    width: 300px;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd; 
+    background-color: transparent; 
+    text-align: center; 
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+select#visitorType option {
+    background-color: #fff; 
+    color: #333; 
+}
+
+
+select#visitorType:hover {
+    border-color: rgb(128, 128, 128); 
+}
+
+
+select#disease:focus {
+    outline: none; 
+    border-color: dimgrey; 
+    box-shadow: 0 0 5px dimgrey; 
+}
+
+
+select#disease {
+    width: 300px;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd; 
+    background-color: transparent; 
+    text-align: center; 
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+select#disease option {
+    background-color: #fff; 
+    color: #333; 
+}
+
+
+select#disease:hover {
+    border-color: rgb(128, 128, 128); 
+}
+
+
+select#disease:focus {
+    outline: none; 
+    border-color: dimgrey; 
+    box-shadow: 0 0 5px dimgrey; 
+}
+
+select#workAssignment {
+    width: 300px;
+    padding: 15px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd; 
+    background-color: transparent; 
+    text-align: center; 
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+select#workAssignment option {
+    background-color: #fff; 
+    color: #333; 
+}
+
+
+select#workAssignment:hover {
+    border-color: rgb(128, 128, 128); 
+}
+
+
+select#workAssignment:focus {
+    outline: none; 
+    border-color: dimgrey; 
+    box-shadow: 0 0 5px dimgrey; 
 }

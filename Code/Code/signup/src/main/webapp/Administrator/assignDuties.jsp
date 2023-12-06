@@ -5,39 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Assign Duty</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    </nav>
+    <div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Assign Duty</h1>
+    <div class="content">
+        <h1>Assign Duty</h1>
 
         <!-- Assign Duty Form -->
         <form id="assignDutyForm" onsubmit="return searchOfficer()" method="post" action="assignDuties">
-            <div class="form-group">
                 <label for="officerName">Enter Officer Name:</label>
-                <input type="text" class="form-control" id="officerName" name="officerName" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Search Officer</button>
+                <input type="text" id="officerName" name="officerName" required><br>
+                <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Search Officer</button>
         </form>
+        
 
         <!-- Display Matched Officers -->
-        <div id="matchedOfficers" class="mt-4" style="display: none;">
+        <div id="matchedOfficers">
             <h4>Matched Officers:</h4>
-            <select class="form-control" id="selectedOfficer" name="selectedOfficer" required>
+            <select id="selectedOfficer" name="selectedOfficer" required>
                 <!-- Options will be dynamically populated based on search results -->
             </select>
 
             <!-- Select Duty Dropdown -->
             <label for="duty">Select Duty:</label>
-            <select class="form-control" id="officerDuty" name="officerDuty" required>
+            <select id="officerDuty" name="officerDuty" required>
                 <option value="Patrol">Patrol</option>
                 <option value="Gate Security">Gate Security</option>
                 <option value="Office Duty">Office Duty</option>
@@ -46,10 +46,10 @@
                 <option value="Cell Surveillance">Cell Surveillance</option>
                 <option value="Crises Intervention">Crises Intervention</option>
             </select>
-
-            <!-- Assign Duty Button -->
-            <button type="button" class="btn btn-primary mt-2" onclick="assignDuties2()">Assign Duty</button>
         </div>
+        <!-- Assign Duty Button -->
+        <button type="button" class="btn btn-primary" onclick="assignDuties2()"><span class="custom2-span"></span>Assign Duty</button>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

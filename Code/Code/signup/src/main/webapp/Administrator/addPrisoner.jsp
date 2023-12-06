@@ -5,32 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Add Prisoner</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
       <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
 
- <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-    
-</nav>
-
+ 	<div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
 
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Add Prisoner</h1>
+    <div class="content">
+        <h1>Add Prisoner</h1>
 
         <!-- Add Prisoner Form -->
         <form id="addPrisonerForm" onsubmit="return validateForm()" method="post" action="addPrisoner">
             <div class="form-group">
                 <label for="Name">Name</label>
-                <input type="text" class="form-control" id="Name" name="Name" required>
+                <input type="text" id="Name" name="Name" required>
             </div>
              <label for="crime">Crime</label>
-            <select class="form-control" id="crime" name="crime" required>
+            <select id="crime" name="crime" required>
                     <!-- Options will be dynamically populated based on duties -->
                   
                     <option value="Murder">Murder</option>
@@ -46,12 +45,11 @@
                      
                 </select>
           
-            <div class="form-group">
                 <label for="sentence">Sentence</label>
-                <input type="number" class="form-control" id="sentence" name="sentence" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Prisoner</button>
+                <input type="number" id="sentence" name="sentence" required><br>
+            <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Add Prisoner</button>
         </form>
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

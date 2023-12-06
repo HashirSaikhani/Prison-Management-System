@@ -4,35 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Administrator Home</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
       <link rel="stylesheet" href="<%= request.getContextPath() %>/Administrator/styles/admin.css">
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left" style="color: white;">Admin Panel</button>
-      <div style="position: absolute; top: 10px; right: 10px;">
-  <button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-right" style="color: white;">Log out</button>
-	</div>
+	<div class="banner">
+    <div class="navbar">
+     <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Administrator/AdministratorHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/login.jsp'" class="btn btn-primary-left">Log out</button></li>
+    </ul>
+    </div>
     
-</nav>
-
     <!-- Content -->
-    <div class="container mt-4">
-        <h1 class="mb-4">Administrator Home</h1>
+    <div class="content">
+        <h1>Administrator Home</h1>
 
         <!-- Buttons -->
-        <div class="btn-group-horizontal">
-            <button class="btn btn-primary" onclick="redirectToViewRecord()">View Prisoner Record</button>
-            <button class="btn btn-primary" onclick="redirectToAddPrisoner()">Add Prisoner</button>
-            <button class="btn btn-primary" onclick="redirectToRemovePrisoner()">Remove Prisoner</button>
-            <button class="btn btn-primary" onclick="redirectToManageOfficer()">Manage Officer</button>
-            <button class="btn btn-primary" onclick="redirectToCellAllocation()">Cell Allocation</button>
-            <button class="btn btn-primary" onclick="redirectToAssignDuties()">Assign Duties</button>
-        </div>
+            <button class="btn btn-info" onclick="redirectToViewRecord()"><span class="custom-span"></span>View Prisoner Record</button>
+            <button class="btn btn-info" onclick="redirectToAddPrisoner()"><span class="custom-span"></span>Add Prisoner</button>
+            <button class="btn btn-info" onclick="redirectToRemovePrisoner()"><span class="custom-span"></span>Remove Prisoner</button>
+            <button class="btn btn-info" onclick="redirectToManageOfficer()"><span class="custom-span"></span>Manage Officer</button>
+            <button class="btn btn-info" onclick="redirectToCellAllocation()"><span class="custom-span"></span>Cell Allocation</button>
+            <button class="btn btn-info" onclick="redirectToAssignDuties()"><span class="custom-span"></span>Assign Duties</button>
+     
+    </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->

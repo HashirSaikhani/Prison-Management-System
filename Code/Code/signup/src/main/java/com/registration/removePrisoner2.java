@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
@@ -25,7 +27,7 @@ public class removePrisoner2 extends HttpServlet {
         System.out.println("Inside RemovePrisonerServlet");
         String selectedPrisoner = request.getParameter("selectedPrisoner");
         System.out.println(selectedPrisoner);
-        
+
         Connection con = null;
         RequestDispatcher dispatcher = null;
 
@@ -34,45 +36,69 @@ public class removePrisoner2 extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/project?useSSL=false", "root",
                     "hashirbluered");
 
-            // Delete the prisoner from the prisoner table
-            PreparedStatement deletePrisoner = con.prepareStatement("DELETE FROM prisoner WHERE pname = ?");
-            deletePrisoner.setString(1, selectedPrisoner);
+            // Fetch the pid based on pname
+            int pid = getPrisonerId(con, selectedPrisoner);
 
-            // Execute the delete query
-            int deleteRowCount = deletePrisoner.executeUpdate();
+            if (pid != -1) {
+                // Delete the prisoner from the prisoner table using pid
+                PreparedStatement deletePrisoner = con.prepareStatement("DELETE FROM prisoner WHERE pid = ?");
+                deletePrisoner.setInt(1, pid);
 
-            // Set the response type to JSON
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+                // Execute the delete query
+                int deleteRowCount = deletePrisoner.executeUpdate();
 
-            // Create a JSON object to hold the response data
-            JsonObject jsonResponse = Json.createObjectBuilder().add("status", (deleteRowCount > 0) ? "success" : "failed").build();
+                // Set the response type to JSON
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
 
-            // Write the JSON response to the PrintWriter
-            PrintWriter out = response.getWriter();
-            out.print(jsonResponse.toString());
-            out.flush();
+                // Create a JSON object to hold the response data
+                JsonObject jsonResponse = Json.createObjectBuilder()
+                        .add("status", (deleteRowCount > 0) ? "success" : "failed").build();
 
-            dispatcher = request.getRequestDispatcher("/Administrator/removePrisoner.jsp");
-            if (deleteRowCount > 0) {
-                request.setAttribute("status", "success");
+                // Write the JSON response to the PrintWriter
+                PrintWriter out = response.getWriter();
+                out.print(jsonResponse.toString());
+                out.flush();
+
+                dispatcher = request.getRequestDispatcher("/Administrator/removePrisoner.jsp");
+                if (deleteRowCount > 0) {
+                    request.setAttribute("status", "success");
+                } else {
+                    request.setAttribute("status", "failed");
+                }
             } else {
-                request.setAttribute("status", "failed");
+                // Handle the case where pid is not found for the given pname
+                System.out.println("Prisoner not found for pname: " + selectedPrisoner);
             }
 
             System.out.println("Outside RemovePrisonerServlet");
             dispatcher.forward(request, response);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace(); // Log the exception or handle it appropriately
         } finally {
             try {
                 if (con != null) {
                     con.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // Log the exception or handle it appropriately
             }
         }
+    }
+
+    private int getPrisonerId(Connection con, String pname) throws SQLException {
+        // Fetch the pid based on pname
+        int pid = -1;
+        String sql = "SELECT pid FROM prisoner WHERE pname = ?";
+        try (PreparedStatement statement = con.prepareStatement(sql)) {
+            statement.setString(1, pname);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    pid = resultSet.getInt("pid");
+                }
+            }
+        }
+        return pid;
     }
 }

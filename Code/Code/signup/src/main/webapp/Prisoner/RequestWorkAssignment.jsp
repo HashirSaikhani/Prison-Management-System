@@ -5,31 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Request Work Assignment</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Link to custom styles -->
     <link rel="stylesheet" href="<%= request.getContextPath() %>/Prisoner/styles/prisoner.css">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light">
-    <button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left" style="color: white;">Prisoner Panel</button>
-</nav>
+	<div class="banner">
+    <div class="navbar">
+    <ul>
+    <li><button onclick="window.location.href='<%= request.getContextPath() %>/Prisoner/PrisonerHome.jsp'" class="btn btn-primary-left">HOME</button></li>
+    </ul>
+    </div>
 
-<!-- Content -->
-<div class="container mt-4">
-    <h1 class="mb-4">Request Work Assignment</h1>
+    <!-- Content -->
+    <div class="content">
+        <h1>Request Work Assignment</h1>
 
-    <!-- Request Work Assignment Form -->
-    <form id="requestWorkAssignmentForm" onsubmit="return validateForm()" method="post" action="RequestWorkAssignment">
-        <div class="form-group">
+        <!-- Request Work Assignment Form -->
+        <form id="requestWorkAssignmentForm" onsubmit="return validateForm()" method="post" action="RequestWorkAssignment">
             <label for="prisonerName">Prisoner Name</label>
-            <input type="text" class="form-control" id="prisonerName" name="prisonerName" required>
-        </div>
+            <input type="text" id="prisonerName" name="prisonerName" required>
 
-        <div class="form-group">
             <label for="workAssignment">Work Assignment</label>
-            <select class="form-control" id="workAssignment" name="workAssignment" required>
+            <select id="workAssignment" name="workAssignment" required>
                 <!-- Options will be dynamically populated based on available work assignments -->
                 <option value="Cleaning">Cleaning</option>
                 <option value="Maintenance">Maintenance</option>
@@ -38,11 +36,11 @@
                 <option value="Laundry">Laundry</option>
                 <option value="Office Assistance">Office Assistance</option>
                 <!-- Add more work assignments as needed -->
-            </select>
-        </div>
+            </select><br>
 
-        <button type="submit" class="btn btn-primary">Request Work Assignment</button>
-    </form>
+            <button type="submit" class="btn btn-primary"><span class="custom2-span"></span>Request Work Assignment</button>
+        </form>
+    </div>
 </div>
 
 <!-- Bootstrap JS and dependencies -->
@@ -51,19 +49,37 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <!-- SweetAlert2 JS -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<link rel="stylesheet" href="alert/dist/sweetalert.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Custom JavaScript for form validation and SweetAlert -->
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
         var status = "<%= request.getAttribute("status") %>";
         if (status === "success") {
-            swal("Congrats", "Work assignment requested Successfully", "success");
+            Swal.fire({
+                icon: 'success',
+                title: 'Congrats',
+                text: 'Work assignment requested Successfully',
+            });
         } else if (status === "failed") {
-            swal("Sorry", "Failed to request work assignment", "error");
+            Swal.fire({
+                icon: 'error',
+                title: 'Sorry',
+                text: 'Failed to request work assignment',
+            });
         } else if (status === "invalidInput") {
-            swal("Sorry", "Please fill in all the fields", "error");
+            Swal.fire({
+                icon: 'error',
+                title: 'Sorry',
+                text: 'Please fill in all the fields',
+            });
+        }
+        else if (status === "prisonerNotFound") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Sorry',
+                text: 'Prisoner not found. Please enter a valid name.',
+            });
         }
     });
 </script>
